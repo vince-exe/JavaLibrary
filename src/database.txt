@@ -1,0 +1,23 @@
+CREATE DATABASE javaDB;
+
+USE javaDB;
+
+CREATE TABLE persons (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    birth DATE NOT NULL
+);
+
+CREATE TABLE admins (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    personId INT NOT NULL,
+	username VARCHAR(20) NOT NULL,
+    email VARCHAR(40) NOT NULL UNIQUE,
+    psw VARCHAR(30) NOT NULL,
+    
+    FOREIGN KEY (personId) REFERENCES persons(id)
+);
+
+INSERT INTO persons(first_name, last_name, birth) VALUES ("root", "root", "1990-10-9");
+INSERT INTO admins(personId, username, email, psw) VALUES (5, "root", "root@gmail.com", "root1234"); 

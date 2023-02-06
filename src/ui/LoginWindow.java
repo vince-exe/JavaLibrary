@@ -5,7 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -40,7 +40,7 @@ public class LoginWindow implements FocusListener, MouseListener {
 		titleLabel.setForeground(WINDOW_FOREGROUND_COLOR);
 		titleLabel.setBounds(135, 10, 150, 45);
 		
-		emailBox = new JTextField("email@gmail.com", 20);
+		emailBox = new JTextField(20);
 		emailBox.setBounds(46, 90, 300, 50);
 		emailBox.setBorder(new LineBorder(new Color(0x40260b),4));
 		emailBox.setBackground(new Color(0x914a17));
@@ -50,7 +50,7 @@ public class LoginWindow implements FocusListener, MouseListener {
 		emailBox.setCaretColor(WINDOW_FOREGROUND_COLOR);
 		emailBox.addFocusListener(this);
 	
-		passwordBox = new JPasswordField("*  *  *  *  *", 20);
+		passwordBox = new JPasswordField(20);
 		passwordBox.setBounds(46, 170, 300, 50);
 		passwordBox.setBorder(new LineBorder(new Color(0x40260b),4));
 		passwordBox.setBackground(new Color(0x914a17));
@@ -97,45 +97,33 @@ public class LoginWindow implements FocusListener, MouseListener {
 		
 		window.setVisible(true);
 	}
-
-	/* function to set the placeholder in the given JTextField */
-	private static void setPlaceHolder(JTextField textField, String text, boolean gained) {
-		if(gained && textField.getText().equals(text)) {
-			textField.setText("");
-		}
-		else if(!gained && textField.getText().isEmpty()) {
-			textField.setText(text);
-		}
-	}
-	
 	@Override
 	public void focusGained(FocusEvent e) {
-		if(e.getSource() == emailBox) {
-			emailBox.setBorder(new LineBorder(new Color(0x40260b),5));
-			setPlaceHolder(emailBox, "email@gmail.com", true);
-		}	
-		else if(e.getSource() == passwordBox) {
-			passwordBox.setBorder(new LineBorder(new Color(0x40260b),5));
-			setPlaceHolder(passwordBox, "*  *  *  *  *", true);
-		}
+
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		if(e.getSource() == emailBox) {
-			emailBox.setBorder(new LineBorder(new Color(0x40260b),4));
-			setPlaceHolder(emailBox, "email@gmail.com", false);
-		}
-		else if(e.getSource() == passwordBox) {
-			passwordBox.setBorder(new LineBorder(new Color(0x40260b),4));
-			setPlaceHolder(passwordBox, "*  *  *  *  *", false);
-		}
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == text2) {
 			System.out.print("\nRegistration");
+			return;
+		}
+		
+		if(e.getSource() == loginBtn) {
+			String pwd = new String(passwordBox.getPassword());
+			
+			if(!CredentialsChecker.handleEmail(emailBox.getText(), window) || !CredentialsChecker.handlePwd(pwd, window)) {
+				return;
+			}
+			
+			if(!CredentialsChecker.handleLogin(emailBox.getText(), pwd, window)) {
+				return;
+			}
 		}
 	}
 
@@ -151,21 +139,11 @@ public class LoginWindow implements FocusListener, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if(e.getSource() == loginBtn) {
-			loginBtn.setBorder(new LineBorder(new Color(0x40260b),5));
-		}
-		else if(e.getSource() == text2) {
-			text2.setFont(new Font("Monospaced", Font.BOLD, 17));
-		}
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if(e.getSource() == loginBtn) {
-			loginBtn.setBorder(new LineBorder(new Color(0x40260b),4));
-		}
-		else if(e.getSource() == text2) {
-			text2.setFont(new Font("Monospaced", Font.BOLD, 15));
-		}
+
 	}
 }
