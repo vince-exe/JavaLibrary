@@ -20,7 +20,7 @@ public class Database {
 	}
 	
 	public static boolean isLogged(String email, String password) throws SQLException {
-		PreparedStatement loginStmt = conn.prepareStatement("SELECT admins.id FROM admins WHERE admins.email = ? AND admins.psw = ?;");
+		PreparedStatement loginStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ? AND users.psw = ?;");
 		
 		loginStmt.setString(1,  email);
 		loginStmt.setString(2, password);

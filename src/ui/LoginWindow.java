@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -49,7 +50,22 @@ public class LoginWindow implements FocusListener, MouseListener {
 		emailBox.setForeground(WINDOW_FOREGROUND_COLOR);
 		emailBox.setCaretColor(WINDOW_FOREGROUND_COLOR);
 		emailBox.addFocusListener(this);
-	
+		emailBox.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(!emailBox.getText().equals("email@gmail.com")) {
+					return;
+				}
+				emailBox.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(emailBox.getText().length() == 0) {
+					emailBox.setText("email@gmail.com");
+				}
+			}
+		});
+		
 		passwordBox = new JPasswordField("* * * * *", 20);
 		passwordBox.setBounds(46, 170, 300, 50);
 		passwordBox.setBorder(new LineBorder(new Color(0x40260b),4));
@@ -59,6 +75,23 @@ public class LoginWindow implements FocusListener, MouseListener {
 		passwordBox.setForeground(WINDOW_FOREGROUND_COLOR);
 		passwordBox.setCaretColor(WINDOW_FOREGROUND_COLOR);
 		passwordBox.addFocusListener(this);
+		passwordBox.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				String pwd = new String(passwordBox.getPassword());
+				if(!pwd.equals("* * * * *")) {
+					return;
+				}
+				passwordBox.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				String pwd = new String(passwordBox.getPassword());
+				if(pwd.length() == 0) {
+					passwordBox.setText("* * * * *");
+				}
+			}
+		});
 		
 		text1 = new JLabel("Non hai un account?");
 		text1.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
@@ -125,6 +158,8 @@ public class LoginWindow implements FocusListener, MouseListener {
 			if(!CredentialsChecker.handleLogin(emailBox.getText(), pwd, window)) {
 				return;
 			}
+			
+			System.out.print("\nSuccessfully logged in as...");
 		}
 	}
 
