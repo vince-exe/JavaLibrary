@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class LoginWindow implements FocusListener, MouseListener {	
-	private JFrame window;
+	private static JFrame window;
 	
 	private JLabel titleLabel;
 	private JLabel text1;
@@ -36,37 +36,37 @@ public class LoginWindow implements FocusListener, MouseListener {
 		window.setIconImage(new ImageIcon("src/ui/resources/icon.png").getImage());
 		
 		titleLabel = new JLabel("Login");
-		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 40));
+		titleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 38));
 		titleLabel.setForeground(WINDOW_FOREGROUND_COLOR);
-		titleLabel.setBounds(135, 10, 150, 45);
+		titleLabel.setBounds(150, 10, 150, 55);
 		
-		emailBox = new JTextField(20);
+		emailBox = new JTextField("email@gmail.com", 20);
 		emailBox.setBounds(46, 90, 300, 50);
 		emailBox.setBorder(new LineBorder(new Color(0x40260b),4));
 		emailBox.setBackground(new Color(0x914a17));
 		emailBox.setHorizontalAlignment(JTextField.CENTER);
-		emailBox.setFont(new Font("Monospaced", Font.BOLD, 16));
+		emailBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
 		emailBox.setForeground(WINDOW_FOREGROUND_COLOR);
 		emailBox.setCaretColor(WINDOW_FOREGROUND_COLOR);
 		emailBox.addFocusListener(this);
 	
-		passwordBox = new JPasswordField(20);
+		passwordBox = new JPasswordField("* * * * *", 20);
 		passwordBox.setBounds(46, 170, 300, 50);
 		passwordBox.setBorder(new LineBorder(new Color(0x40260b),4));
 		passwordBox.setBackground(new Color(0x914a17));
 		passwordBox.setHorizontalAlignment(JTextField.CENTER);
-		passwordBox.setFont(new Font("Monospaced", Font.BOLD, 16));
+		passwordBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
 		passwordBox.setForeground(WINDOW_FOREGROUND_COLOR);
 		passwordBox.setCaretColor(WINDOW_FOREGROUND_COLOR);
 		passwordBox.addFocusListener(this);
 		
 		text1 = new JLabel("Non hai un account?");
-		text1.setFont(new Font("Monospaced", Font.BOLD, 15));
+		text1.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
 		text1.setForeground(WINDOW_FOREGROUND_COLOR);
 		text1.setBounds(40, 240, 190, 30);
 		
 		text2 = new JLabel("Registrati ora");
-		text2.setFont(new Font("Monospaced", Font.BOLD, 15));
+		text2.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 		text2.setForeground(WINDOW_FOREGROUND_COLOR);
 		text2.setBounds(215, 240, 200, 30);
 		text2.addMouseListener(this);
@@ -97,6 +97,11 @@ public class LoginWindow implements FocusListener, MouseListener {
 		
 		window.setVisible(true);
 	}
+	
+	public static void enableWindow() {
+		window.setEnabled(true);
+	}
+	
 	@Override
 	public void focusGained(FocusEvent e) {
 
@@ -110,17 +115,13 @@ public class LoginWindow implements FocusListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == text2) {
-			System.out.print("\nRegistration");
+			RegistrationWindow.startWindow(null);
+			window.setEnabled(false);
 			return;
 		}
 		
 		if(e.getSource() == loginBtn) {
 			String pwd = new String(passwordBox.getPassword());
-			
-			if(!CredentialsChecker.handleEmail(emailBox.getText(), window) || !CredentialsChecker.handlePwd(pwd, window)) {
-				return;
-			}
-			
 			if(!CredentialsChecker.handleLogin(emailBox.getText(), pwd, window)) {
 				return;
 			}
