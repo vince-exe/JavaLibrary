@@ -27,6 +27,41 @@ public class DialogsHandler {
 				"Invalid Password", JOptionPane.WARNING_MESSAGE);
 	}
 	
+	public static void SQLErr(JFrame frame, String error) {
+		JOptionPane.showMessageDialog(
+				frame,
+				error,
+				"Database Error", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public static void registrationErr(JFrame frame) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"The application failed to register your account",
+				"Fatal Error", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public static void registrationSuccess(JFrame frame) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Successfully registered, go in the login page to process the login :)",
+				"Registration Success", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public static void emailExistErr(JFrame frame) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"There is already an account with this email",
+				"Invalid Email", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void birdDateErr(JFrame frame) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Please insert a valid birday date ( YYYY / MM / DD ).",
+				"Invalid Date", JOptionPane.WARNING_MESSAGE);
+	}
+	
 	public static void emailSuffixErr(JFrame frame, String emailType) {
 		JOptionPane.showMessageDialog(
 			frame,

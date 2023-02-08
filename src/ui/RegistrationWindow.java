@@ -64,6 +64,7 @@ public class RegistrationWindow {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				LoginWindow.enableWindow();
+			
 			}
 		});
 		
@@ -127,6 +128,15 @@ public class RegistrationWindow {
 						frmRegistration)) {
 					
 					return;
+				}
+					
+				database.User user = new database.User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText(), pwd, usrField.getText());
+				if(database.Database.registration(user)) {
+					DialogsHandler.registrationSuccess(frmRegistration);
+					frmRegistration.dispatchEvent(new WindowEvent(frmRegistration, WindowEvent.WINDOW_CLOSING));
+				}
+				else {
+					DialogsHandler.registrationErr(frmRegistration);
 				}
 			}
 		});
@@ -195,11 +205,20 @@ public class RegistrationWindow {
 		usrField.setBounds(29, 168, 165, 42);
 		frmRegistration.getContentPane().add(usrField);
 		
-		dateField = new JTextField();
+		dateField = new JTextField("YYYY/MM/DD");
 		dateField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
+				if(!dateField.getText().equals("YYYY/MM/DD")) {
+					return;
+				}
 				dateField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(dateField.getText().length() == 0) {
+					dateField.setText("YYYY/MM/DD");
+				}
 			}
 		});
 		dateField.setText("YYYY/MM/DD");

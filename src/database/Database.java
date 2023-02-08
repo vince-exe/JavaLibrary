@@ -27,4 +27,62 @@ public class Database {
 		
 		return loginStmt.executeQuery().next();
 	}
+	
+	public static boolean emailExist(String email) throws SQLException {
+		PreparedStatement checkStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ?");
+		checkStmt.setString(1, email);
+		
+		return checkStmt.executeQuery().next();
+	}
+	
+	private static int getLastPersonID() {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT id FROM persons ORDER BY id DESC LIMIT 1;");
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt("id");
+			}
+			return -1;
+			
+		} catch (SQLException e) {
+			return -1;
+		}
+	}
+	
+	public static boolean registration(User usr) {
+		try {
+			PreparedStatement personStmt = conn.prepareStatement("INSERT INTO persons(first_name, last_name, birth) VALUES (?, ?, ?);");
+			personStmt.setString(1, usr.getFirstName());
+			personStmt.setString(2, usr.getLastName());
+			personStmt.setString(3, usr.getBDay());
+			
+			if(personStmt.executeUpdate() < 0) {
+				System.out.print("\nPersona Fail");
+				return false;
+			}
+			
+			int personId = Database.getLastPersonID();
+			if(personId == -1) {
+				return false;
+			}
+			
+			
+			PreparedStatement userStmt = conn.prepareStatement("INSERT INTO users(personId, username, email, psw) VALUES (?, ?, ?, ?);");
+			userStmt.setInt(1, personId);
+			userStmt.setString(2, usr.getUsername());
+			userStmt.setString(3, usr.getEmail());
+			userStmt.setString(4, usr.getPassword());
+			
+			if(userStmt.executeUpdate() < 0) {
+				return false;
+			}
+			
+			return true;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
 }
