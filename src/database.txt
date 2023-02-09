@@ -26,6 +26,15 @@ CREATE TABLE admins (
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 
+CREATE TABLE books (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    price DOUBLE NOT NULL,
+    title VARCHAR(20) NOT NULL,
+    ISBN varchar(22) NOT NULL UNIQUE,
+    authorFName varchar(20) NOT NULL,
+    authorLName varchar(20) NOT NULL
+);
+
 INSERT INTO persons(first_name, last_name, birth) VALUES ("root", "root", "1990-10-9");
 INSERT INTO users(personId, username, email, psw) VALUES (1, "root", "root@gmail.com", "root1234"); 
 INSERT INTO admins(userId) VALUES (1);

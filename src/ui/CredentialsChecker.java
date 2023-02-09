@@ -113,21 +113,26 @@ public class CredentialsChecker {
 		}
 	}
 	
-	public static boolean handleLogin(String email, String pwd, JFrame frame) {
+	/**
+	 * 
+	 * @return -1=FAIL 1=ROOT 0=USER
+	 */
+	public static int handleLogin(String email, String pwd, JFrame frame) {
 		try {
 			if(!CredentialsChecker.handleEmail(email, "email@gmail.com", frame) || !CredentialsChecker.handlePwd(pwd, PASSWORD_TYPE, frame)) {
-				return false;
+				return -1;
 			}
 			
-			if(!database.Database.isLogged(email, pwd)) {
+			int[] result = database.Database.isLogged(email, pwd);
+			if(result[0] == 0) {
 				DialogsHandler.loginFail(frame);
-				return false;
+				return -1;
 			}
-			return true;
-			
+			return (database.Database.isRoot(result[1]) == true) ? 1 : 0;
+		
 		} catch (SQLException e) {
 			DialogsHandler.loginErr(frame, e);
-			return false;
+			return -1;
 		}
 	}
 	

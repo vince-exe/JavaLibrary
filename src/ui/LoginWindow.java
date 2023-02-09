@@ -6,8 +6,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -155,11 +153,16 @@ public class LoginWindow implements FocusListener, MouseListener {
 		
 		if(e.getSource() == loginBtn) {
 			String pwd = new String(passwordBox.getPassword());
-			if(!CredentialsChecker.handleLogin(emailBox.getText(), pwd, window)) {
+			int isRoot = CredentialsChecker.handleLogin(emailBox.getText(), pwd, window);
+			
+			if( isRoot == 1) {
+				System.out.print("\nWINDOW ROOT");
 				return;
 			}
-			
-			System.out.print("\nSuccessfully logged in as...");
+			else if(isRoot == 0){
+				System.out.print("\nWINDOW CUSTOMER");
+				return;
+			}
 		}
 	}
 

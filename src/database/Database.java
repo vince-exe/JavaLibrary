@@ -19,13 +19,30 @@ public class Database {
 		conn = DriverManager.getConnection(dbUrl, username, password);
 	}
 	
-	public static boolean isLogged(String email, String password) throws SQLException {
+	public static boolean isRoot(int userId) throws SQLException {
+		PreparedStatement checkStmt = conn.prepareStatement("SELECT admins.id FROM admins WHERE admins.userId = ?;");
+		checkStmt.setInt(1, userId);
+				
+		return checkStmt.executeQuery().next();
+	}
+	
+	public static int[] isLogged(String email, String password) throws SQLException {
 		PreparedStatement loginStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ? AND users.psw = ?;");
 		
 		loginStmt.setString(1,  email);
 		loginStmt.setString(2, password);
 		
-		return loginStmt.executeQuery().next();
+		int[] returnValue = new int[2];
+		ResultSet result = loginStmt.executeQuery(); 
+		
+		if(result.next()) {
+			returnValue[0] = 1;
+			returnValue[1] = result.getInt(1);
+			return returnValue;
+		}
+		
+		returnValue[0] = 0;
+		return returnValue;
 	}
 	
 	public static boolean emailExist(String email) throws SQLException {
