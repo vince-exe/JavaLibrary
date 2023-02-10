@@ -12,39 +12,59 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AdminWindow {
 
 	private JFrame frmAdmin;
-
+	
+	private static database.User admin;
+	
+	private static AdminWindow __window;
+	
+	private JButton infoBtn;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void startWindow(String[] args) {
+	public static void startWindow(String[] args, database.User admin_) {
+		admin = admin_;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					AdminWindow window = new AdminWindow();
+					__window = window;
 					window.frmAdmin.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/**
-	 * Create the application.
-	 */
+	
 	public AdminWindow() {
 		initialize();
 	}
-
+	
+	public static void enableWindow() {
+		__window.frmAdmin.setEnabled(true);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmAdmin = new JFrame();
+		frmAdmin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				ui.LoginWindow.enableWindow();
+			}
+		});
 		frmAdmin.getContentPane().setBackground(new Color(105, 50, 12));
 		frmAdmin.getContentPane().setLayout(null);
 		
@@ -55,7 +75,7 @@ public class AdminWindow {
 		lblAdminPage.setBounds(20, 11, 236, 51);
 		frmAdmin.getContentPane().add(lblAdminPage);
 		
-		JLabel nicknameLabel = new JLabel("Logged As: ");
+		JLabel nicknameLabel = new JLabel("Logged As: " + admin.getUsername());
 		nicknameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		nicknameLabel.setForeground(new Color(222, 222, 222));
 		nicknameLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
@@ -187,12 +207,38 @@ public class AdminWindow {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(186, 186, 186));
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		lblNewLabel.setBounds(76, 320, 348, 19);
+		lblNewLabel.setBounds(77, 390, 348, 19);
 		frmAdmin.getContentPane().add(lblNewLabel);
+		
+		infoBtn = new JButton("Info");
+		infoBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				infoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				infoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frmAdmin.setEnabled(false);
+				ui.InfoWindow.startWindow(null, admin);
+			}
+		});
+
+		infoBtn.setForeground(new Color(222, 222, 222));
+		infoBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+		infoBtn.setFocusPainted(false);
+		infoBtn.setContentAreaFilled(false);
+		infoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		infoBtn.setBackground(new Color(145, 74, 23));
+		infoBtn.setBounds(163, 323, 172, 50);
+		frmAdmin.getContentPane().add(infoBtn);
 		frmAdmin.setIconImage(Toolkit.getDefaultToolkit().getImage(AdminWindow.class.getResource("/ui/resources/icon.png")));
 		frmAdmin.setTitle("Admin");
 		frmAdmin.setResizable(false);
-		frmAdmin.setBounds(100, 100, 511, 389);
+		frmAdmin.setBounds(100, 100, 511, 456);
 		frmAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }

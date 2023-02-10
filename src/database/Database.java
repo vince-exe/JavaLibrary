@@ -26,6 +26,38 @@ public class Database {
 		return checkStmt.executeQuery().next();
 	}
 	
+	public static database.User getUser(int id) throws SQLException {
+		PreparedStatement stmt = conn.prepareStatement("select "
+				+ "persons.id,"
+				+ "persons.first_name,"
+				+ "persons.last_name,"
+				+ "persons.birth,"
+				+ "users.id,"
+				+ "users.email,"
+				+ "users.psw,"
+				+ "users.username "
+				+ "FROM users JOIN persons ON users.personId = persons.id WHERE users.id = ?;");
+		/*
+		PreparedStatement stmt = conn.prepareStatement("select "
+				+ "persons.id,"
+				+ "persons.first_name,"
+				+ "persons.last_name,"
+				+ "persons.birth,"
+				+ "users.id,"
+				+ "users.email,"
+				+ "users.psw,"
+				+ "users.username"
+				+ "FROM users JOIN persons ON users.personId = persons.id WHERE users.id = ?;");
+				*/
+		stmt.setInt(1, id);
+		
+		ResultSet result = stmt.executeQuery();
+		
+		if(!result.next()) { return null; }
+		
+		return new database.User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+	}
+	
 	public static int[] isLogged(String email, String password) throws SQLException {
 		PreparedStatement loginStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ? AND users.psw = ?;");
 		

@@ -128,7 +128,7 @@ public class CredentialsChecker {
 				DialogsHandler.loginFail(frame);
 				return -1;
 			}
-			return (database.Database.isRoot(result[1]) == true) ? 1 : 0;
+			return result[1];
 		
 		} catch (SQLException e) {
 			DialogsHandler.loginErr(frame, e);

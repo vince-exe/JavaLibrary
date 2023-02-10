@@ -6,6 +6,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -153,15 +155,34 @@ public class LoginWindow implements FocusListener, MouseListener {
 		
 		if(e.getSource() == loginBtn) {
 			String pwd = new String(passwordBox.getPassword());
-			int isRoot = CredentialsChecker.handleLogin(emailBox.getText(), pwd, window);
 			
-			if( isRoot == 1) {
-				System.out.print("\nWINDOW ROOT");
-				return;
-			}
-			else if(isRoot == 0){
-				System.out.print("\nWINDOW CUSTOMER");
-				return;
+			int userId = CredentialsChecker.handleLogin(emailBox.getText(), pwd, window);
+			if(userId == -1) { return; }
+			
+			try {
+				database.User usr = database.Database.getUser(userId);
+				
+				if(usr == null) {
+					ui.DialogsHandler.SQLErr(window, "The application failed to handle the login");
+					return;
+				}
+						
+				if(database.Database.isRoot(userId)) {
+					passwordBox.setText("* * * * *");
+					emailBox.setText("email@gmail.com");
+					window.setEnabled(false);
+					
+					ui.AdminWindow.startWindow(null, usr);
+					return;
+				}
+				else {
+					System.out.print("\nWINDOW CUSTOMER");
+					return;
+				}
+				
+			} 
+			catch (SQLException e1) {
+				ui.DialogsHandler.SQLErr(window, e1.getMessage());
 			}
 		}
 	}
