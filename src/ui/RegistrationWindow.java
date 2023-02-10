@@ -12,6 +12,11 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+
+import uiUtils.CredentialsChecker;
+import uiUtils.DialogsHandler;
+import database.User;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
@@ -129,7 +134,7 @@ public class RegistrationWindow {
 					return;
 				}
 					
-				database.User user = new database.User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText(), pwd, usrField.getText());
+				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText(), pwd, usrField.getText());
 				if(database.Database.registration(user)) {
 					DialogsHandler.registrationSuccess(frmRegistration);
 					frmRegistration.dispatchEvent(new WindowEvent(frmRegistration, WindowEvent.WINDOW_CLOSING));

@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import uiUtils.CredentialsChecker;
+import database.User;
+
 public class LoginWindow implements FocusListener, MouseListener {	
 	private static JFrame window;
 	
@@ -160,10 +163,10 @@ public class LoginWindow implements FocusListener, MouseListener {
 			if(userId == -1) { return; }
 			
 			try {
-				database.User usr = database.Database.getUser(userId);
+				User usr = database.Database.getUser(userId);
 				
 				if(usr == null) {
-					ui.DialogsHandler.SQLErr(window, "The application failed to handle the login");
+					uiUtils.DialogsHandler.SQLErr(window, "The application failed to handle the login");
 					return;
 				}
 						
@@ -182,7 +185,7 @@ public class LoginWindow implements FocusListener, MouseListener {
 				
 			} 
 			catch (SQLException e1) {
-				ui.DialogsHandler.SQLErr(window, e1.getMessage());
+				uiUtils.DialogsHandler.SQLErr(window, e1.getMessage());
 			}
 		}
 	}

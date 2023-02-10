@@ -14,14 +14,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
+import database.User;
 
 public class AdminWindow {
 
 	private JFrame frmAdmin;
 	
-	private static database.User admin;
+	private static User admin;
 	
 	private static AdminWindow __window;
 	
@@ -30,7 +30,7 @@ public class AdminWindow {
 	/**
 	 * Launch the application.
 	 */
-	public static void startWindow(String[] args, database.User admin_) {
+	public static void startWindow(String[] args, User admin_) {
 		admin = admin_;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

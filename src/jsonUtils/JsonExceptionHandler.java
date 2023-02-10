@@ -16,12 +16,12 @@ public class JsonExceptionHandler {
 			return true;
 		} 
 		catch (IOException e) {
-			ui.DialogsHandler.readSettingsJsonIO();
+			uiUtils.DialogsHandler.readSettingsJsonIO();
 			currentError = IO_ERROR;
 			return false;
 		}
 		catch (ParseException e) {
-			ui.DialogsHandler.readSettingsJson();
+			uiUtils.DialogsHandler.readSettingsJson();
 			currentError = PARSE_ERROR;
 			return false;
 		}

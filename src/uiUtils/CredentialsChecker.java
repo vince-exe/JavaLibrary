@@ -1,4 +1,4 @@
-package ui;
+package uiUtils;
 
 import java.sql.SQLException;
 import javax.swing.JFrame;
