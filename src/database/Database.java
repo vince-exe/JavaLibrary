@@ -19,6 +19,13 @@ public class Database {
 		conn = DriverManager.getConnection(dbUrl, username, password);
 	}
 	
+	public static boolean existISBN(String isbn) throws SQLException {
+		PreparedStatement bookStmt = conn.prepareStatement("SELECT books.id FROM books WHERE books.ISBN = ?;");
+		bookStmt.setString(1, isbn);
+		
+		return bookStmt.executeQuery().next();
+	}
+	
 	public static boolean isRoot(int userId) throws SQLException {
 		PreparedStatement checkStmt = conn.prepareStatement("SELECT admins.id FROM admins WHERE admins.userId = ?;");
 		checkStmt.setInt(1, userId);
@@ -37,18 +44,6 @@ public class Database {
 				+ "users.psw,"
 				+ "users.username "
 				+ "FROM users JOIN persons ON users.personId = persons.id WHERE users.id = ?;");
-		/*
-		PreparedStatement stmt = conn.prepareStatement("select "
-				+ "persons.id,"
-				+ "persons.first_name,"
-				+ "persons.last_name,"
-				+ "persons.birth,"
-				+ "users.id,"
-				+ "users.email,"
-				+ "users.psw,"
-				+ "users.username"
-				+ "FROM users JOIN persons ON users.personId = persons.id WHERE users.id = ?;");
-				*/
 		stmt.setInt(1, id);
 		
 		ResultSet result = stmt.executeQuery();
