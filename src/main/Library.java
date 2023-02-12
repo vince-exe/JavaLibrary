@@ -1,7 +1,11 @@
 package main;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import org.json.simple.JSONObject;
+
+import ui.AddBookWindow;
 
 public class Library {
 
@@ -13,8 +17,16 @@ public class Library {
 		JSONObject settings = jsonUtils.JsonReader.getSettingsObj();
 		database.Database.init((String)settings.get("databaseUrl"), (String)settings.get("username"), (String)settings.get("password"));
 		
-		if(!database.ExceptionsHandler.handleConnection()) {
-			System.exit(database.ExceptionsHandler.CONNECTION_ERR);
+		try {
+			database.Database.connect();
+		} 
+		catch (ClassNotFoundException e) {
+			System.out.print("\nThe system failed to load the class");
+			System.exit(1);
+		}
+		catch( SQLException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		new ui.LoginWindow();

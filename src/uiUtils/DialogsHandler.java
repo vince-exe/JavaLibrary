@@ -131,4 +131,39 @@ public class DialogsHandler {
 				"System Error: I / O Error.",
 				"Fatal Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public static void authorName(JFrame frame, String subject, int min, int max) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Invalid author " + subject + " name" + "[ min: " + min + " max: " + max + " ]",
+				"Invalid " + subject + " name", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void priceErr(JFrame frame, int min, int max) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Invalid price [ min: " + min + " max: " + max + " ]",
+				"Invalid Price", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void isbnERR(JFrame frame, int min, int max) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Please insert a valid ISBN, it doesn't contain spaces and has [ min: " + min + " max: " + max + " ]",
+				"Invalid ISBN", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void titleErr(JFrame frame, int min, int max) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"Please insert a valid title, it doesn't contain spaces and has [ min: " + min + " max: " + max + " ]",
+				"Invalid ISBN", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void bookExist(JFrame frame) {
+		JOptionPane.showMessageDialog(
+				frame,
+				"There is already a book with this ISBN or title",
+				"Invalid Price", JOptionPane.WARNING_MESSAGE);
+	}
 }

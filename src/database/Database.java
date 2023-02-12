@@ -19,9 +19,10 @@ public class Database {
 		conn = DriverManager.getConnection(dbUrl, username, password);
 	}
 	
-	public static boolean existISBN(String isbn) throws SQLException {
-		PreparedStatement bookStmt = conn.prepareStatement("SELECT books.id FROM books WHERE books.ISBN = ?;");
+	public static boolean existBook(String isbn, String title) throws SQLException {
+		PreparedStatement bookStmt = conn.prepareStatement("SELECT id FROM books WHERE books.ISBN = ? OR books.title = ?;");
 		bookStmt.setString(1, isbn);
+		bookStmt.setString(2, title);
 		
 		return bookStmt.executeQuery().next();
 	}
@@ -103,7 +104,6 @@ public class Database {
 			personStmt.setString(3, usr.getBDay());
 			
 			if(personStmt.executeUpdate() < 0) {
-				System.out.print("\nPersona Fail");
 				return false;
 			}
 			

@@ -16,15 +16,19 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import uiUtils.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class AddBookWindow {
 
 	private JFrame frmAddBook;
-	private JTextField txtAuthorName;
-	private JTextField txtAuthorSurname;
-	private JTextField txtIsbn;
-	private JTextField txtPrice;
-	private JTextField txtBookTitle;
-	private JButton btnAddBook;
+	private JTextField authorFBox;
+	private JTextField authorLBox;
+	private JTextField IsbnBox;
+	private JTextField priceBox;
+	private JTextField titleBox;
+	private JButton addBookBtn;
 	private JLabel lblNewLabel;
 
 	/**
@@ -55,6 +59,12 @@ public class AddBookWindow {
 	 */
 	private void initialize() {
 		frmAddBook = new JFrame();
+		frmAddBook.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				AdminWindow.enableWindow();
+			}
+		});
 		frmAddBook.setResizable(false);
 		frmAddBook.setTitle("Add Book");
 		frmAddBook.setIconImage(Toolkit.getDefaultToolkit().getImage(AddBookWindow.class.getResource("/ui/resources/icon.png")));
@@ -68,174 +78,183 @@ public class AddBookWindow {
 		lblAddBook.setBounds(97, 11, 236, 51);
 		frmAddBook.getContentPane().add(lblAddBook);
 		
-		txtAuthorName = new JTextField();
-		txtAuthorName.addFocusListener(new FocusAdapter() {
+		authorFBox = new JTextField();
+		authorFBox.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				String pwd = new String(txtAuthorName.getText());
+				String pwd = new String(authorFBox.getText());
 				if(!pwd.equals("Author Name")) {
 					return;
 				}
-				txtAuthorName.setText("");
+				authorFBox.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				String pwd = new String(txtAuthorName.getText());
+				String pwd = new String(authorFBox.getText());
 				if(pwd.length() == 0) {
-					txtAuthorName.setText("Author Name");
+					authorFBox.setText("Author Name");
 				}
 			}
 		});
-		txtAuthorName.setText("Author Name");
-		txtAuthorName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAuthorName.setForeground(new Color(222, 222, 222));
-		txtAuthorName.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		txtAuthorName.setColumns(10);
-		txtAuthorName.setCaretColor(new Color(222, 222, 222));
-		txtAuthorName.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		txtAuthorName.setBackground(new Color(145, 74, 23));
-		txtAuthorName.setBounds(40, 87, 165, 42);
-		frmAddBook.getContentPane().add(txtAuthorName);
+		authorFBox.setText("Author Name");
+		authorFBox.setHorizontalAlignment(SwingConstants.CENTER);
+		authorFBox.setForeground(new Color(222, 222, 222));
+		authorFBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		authorFBox.setColumns(10);
+		authorFBox.setCaretColor(new Color(222, 222, 222));
+		authorFBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		authorFBox.setBackground(new Color(145, 74, 23));
+		authorFBox.setBounds(40, 87, 165, 42);
+		frmAddBook.getContentPane().add(authorFBox);
 		
-		txtAuthorSurname = new JTextField();
-		txtAuthorSurname.addFocusListener(new FocusAdapter() {
+		authorLBox = new JTextField();
+		authorLBox.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				String pwd = new String(txtAuthorSurname.getText());
+				String pwd = new String(authorLBox.getText());
 				if(!pwd.equals("Author Surname")) {
 					return;
 				}
-				txtAuthorSurname.setText("");
+				authorLBox.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				String pwd = new String(txtAuthorSurname.getText());
+				String pwd = new String(authorLBox.getText());
 				if(pwd.length() == 0) {
-					txtAuthorSurname.setText("Author Surname");
+					authorLBox.setText("Author Surname");
 				}
 			}
 		});
-		txtAuthorSurname.setToolTipText("");
-		txtAuthorSurname.setText("Author Surname");
-		txtAuthorSurname.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAuthorSurname.setForeground(new Color(222, 222, 222));
-		txtAuthorSurname.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		txtAuthorSurname.setColumns(10);
-		txtAuthorSurname.setCaretColor(new Color(222, 222, 222));
-		txtAuthorSurname.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		txtAuthorSurname.setBackground(new Color(145, 74, 23));
-		txtAuthorSurname.setBounds(234, 87, 165, 42);
-		frmAddBook.getContentPane().add(txtAuthorSurname);
+		authorLBox.setToolTipText("");
+		authorLBox.setText("Author Surname");
+		authorLBox.setHorizontalAlignment(SwingConstants.CENTER);
+		authorLBox.setForeground(new Color(222, 222, 222));
+		authorLBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		authorLBox.setColumns(10);
+		authorLBox.setCaretColor(new Color(222, 222, 222));
+		authorLBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		authorLBox.setBackground(new Color(145, 74, 23));
+		authorLBox.setBounds(234, 87, 165, 42);
+		frmAddBook.getContentPane().add(authorLBox);
 		
-		txtIsbn = new JTextField();
-		txtIsbn.addFocusListener(new FocusAdapter() {
+		IsbnBox = new JTextField();
+		IsbnBox.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				String pwd = new String(txtIsbn.getText());
+				String pwd = new String(IsbnBox.getText());
 				if(!pwd.equals("ISBN")) {
 					return;
 				}
-				txtIsbn.setText("");
+				IsbnBox.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				String pwd = new String(txtIsbn.getText());
+				String pwd = new String(IsbnBox.getText());
 				if(pwd.length() == 0) {
-					txtIsbn.setText("ISBN");
+					IsbnBox.setText("ISBN");
 				}
 			}
 		});
-		txtIsbn.setToolTipText("");
-		txtIsbn.setText("ISBN");
-		txtIsbn.setHorizontalAlignment(SwingConstants.CENTER);
-		txtIsbn.setForeground(new Color(222, 222, 222));
-		txtIsbn.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		txtIsbn.setColumns(10);
-		txtIsbn.setCaretColor(new Color(222, 222, 222));
-		txtIsbn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		txtIsbn.setBackground(new Color(145, 74, 23));
-		txtIsbn.setBounds(40, 154, 165, 42);
-		frmAddBook.getContentPane().add(txtIsbn);
+		IsbnBox.setToolTipText("");
+		IsbnBox.setText("ISBN");
+		IsbnBox.setHorizontalAlignment(SwingConstants.CENTER);
+		IsbnBox.setForeground(new Color(222, 222, 222));
+		IsbnBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		IsbnBox.setColumns(10);
+		IsbnBox.setCaretColor(new Color(222, 222, 222));
+		IsbnBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		IsbnBox.setBackground(new Color(145, 74, 23));
+		IsbnBox.setBounds(40, 154, 165, 42);
+		frmAddBook.getContentPane().add(IsbnBox);
 		
-		txtPrice = new JTextField();
-		txtPrice.addFocusListener(new FocusAdapter() {
+		priceBox = new JTextField();
+		priceBox.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				String pwd = new String(txtPrice.getText());
+				String pwd = new String(priceBox.getText());
 				if(!pwd.equals("Price")) {
 					return;
 				}
-				txtPrice.setText("");
+				priceBox.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				String pwd = new String(txtPrice.getText());
+				String pwd = new String(priceBox.getText());
 				if(pwd.length() == 0) {
-					txtPrice.setText("Price");
+					priceBox.setText("Price");
 				}
 			}
 		});
-		txtPrice.setToolTipText("");
-		txtPrice.setText("Price");
-		txtPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPrice.setForeground(new Color(222, 222, 222));
-		txtPrice.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		txtPrice.setColumns(10);
-		txtPrice.setCaretColor(new Color(222, 222, 222));
-		txtPrice.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		txtPrice.setBackground(new Color(145, 74, 23));
-		txtPrice.setBounds(234, 154, 165, 42);
-		frmAddBook.getContentPane().add(txtPrice);
+		priceBox.setToolTipText("");
+		priceBox.setText("Price");
+		priceBox.setHorizontalAlignment(SwingConstants.CENTER);
+		priceBox.setForeground(new Color(222, 222, 222));
+		priceBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		priceBox.setColumns(10);
+		priceBox.setCaretColor(new Color(222, 222, 222));
+		priceBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		priceBox.setBackground(new Color(145, 74, 23));
+		priceBox.setBounds(234, 154, 165, 42);
+		frmAddBook.getContentPane().add(priceBox);
 		
-		txtBookTitle = new JTextField();
-		txtBookTitle.addFocusListener(new FocusAdapter() {
+		titleBox = new JTextField();
+		titleBox.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				String pwd = new String(txtBookTitle.getText());
+				String pwd = new String(titleBox.getText());
 				if(!pwd.equals("Book Title")) {
 					return;
 				}
-				txtBookTitle.setText("");
+				titleBox.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				String pwd = new String(txtBookTitle.getText());
+				String pwd = new String(titleBox.getText());
 				if(pwd.length() == 0) {
-					txtBookTitle.setText("Book Title");
+					titleBox.setText("Book Title");
 				}
 			}
 		});
-		txtBookTitle.setToolTipText("");
-		txtBookTitle.setText("Book Title");
-		txtBookTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		txtBookTitle.setForeground(new Color(222, 222, 222));
-		txtBookTitle.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		txtBookTitle.setColumns(10);
-		txtBookTitle.setCaretColor(new Color(222, 222, 222));
-		txtBookTitle.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		txtBookTitle.setBackground(new Color(145, 74, 23));
-		txtBookTitle.setBounds(82, 223, 272, 42);
-		frmAddBook.getContentPane().add(txtBookTitle);
+		titleBox.setToolTipText("");
+		titleBox.setText("Book Title");
+		titleBox.setHorizontalAlignment(SwingConstants.CENTER);
+		titleBox.setForeground(new Color(222, 222, 222));
+		titleBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		titleBox.setColumns(10);
+		titleBox.setCaretColor(new Color(222, 222, 222));
+		titleBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		titleBox.setBackground(new Color(145, 74, 23));
+		titleBox.setBounds(82, 223, 272, 42);
+		frmAddBook.getContentPane().add(titleBox);
 		
-		btnAddBook = new JButton("Add Book");
-		btnAddBook.addMouseListener(new MouseAdapter() {
+		addBookBtn = new JButton("Add Book");
+		addBookBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnAddBook.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+				addBookBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				btnAddBook.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+				addBookBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.print("\ncheck: " + AddBookChecker.handleAddBook(
+						authorFBox.getText(),
+						authorLBox.getText(),
+						priceBox.getText(),
+						IsbnBox.getText(),
+						titleBox.getText()));
 			}
 		});
-		btnAddBook.setForeground(new Color(222, 222, 222));
-		btnAddBook.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-		btnAddBook.setFocusPainted(false);
-		btnAddBook.setContentAreaFilled(false);
-		btnAddBook.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		btnAddBook.setBackground(new Color(145, 74, 23));
-		btnAddBook.setBounds(131, 287, 186, 50);
-		frmAddBook.getContentPane().add(btnAddBook);
+		addBookBtn.setForeground(new Color(222, 222, 222));
+		addBookBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+		addBookBtn.setFocusPainted(false);
+		addBookBtn.setContentAreaFilled(false);
+		addBookBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		addBookBtn.setBackground(new Color(145, 74, 23));
+		addBookBtn.setBounds(131, 287, 186, 50);
+		frmAddBook.getContentPane().add(addBookBtn);
 		
 		lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -245,6 +264,6 @@ public class AddBookWindow {
 		lblNewLabel.setBounds(40, 351, 348, 19);
 		frmAddBook.getContentPane().add(lblNewLabel);
 		frmAddBook.setBounds(100, 100, 450, 419);
-		frmAddBook.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAddBook.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }
