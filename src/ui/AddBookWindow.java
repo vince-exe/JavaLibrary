@@ -9,6 +9,9 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import database.*;
+
 import javax.swing.JButton;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
@@ -54,6 +57,13 @@ public class AddBookWindow {
 		initialize();
 	}
 
+	private void cleanBoxes() {
+		authorFBox.setText("Author Name");
+		authorLBox.setText("Author Surname");
+		IsbnBox.setText("ISBN");
+		priceBox.setText("Price");
+		titleBox.setText("Book Title");
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -239,12 +249,16 @@ public class AddBookWindow {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.print("\ncheck: " + AddBookChecker.handleAddBook(
-						authorFBox.getText(),
-						authorLBox.getText(),
-						priceBox.getText(),
-						IsbnBox.getText(),
-						titleBox.getText()));
+				if(!AddBookChecker.handleAddBook(authorFBox.getText(), authorLBox.getText(), priceBox.getText(), IsbnBox.getText(), titleBox.getText())) {
+					return;
+				}
+
+				if(!Database.addBook(new Book(Double.parseDouble(priceBox.getText()), titleBox.getText(), IsbnBox.getText(), authorFBox.getText(), authorLBox.getText()))) {
+					DialogsHandler.SQLErr(frmAddBook, "The database failed to upload the book. Please try again");
+					return;
+				};
+				DialogsHandler.infoSuccess(frmAddBook, "Success", "Successfully added the book to the database");
+				cleanBoxes();
 			}
 		});
 		addBookBtn.setForeground(new Color(222, 222, 222));

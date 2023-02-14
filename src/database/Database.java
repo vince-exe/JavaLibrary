@@ -129,4 +129,23 @@ public class Database {
 			return false;
 		}
 	}
+
+	public static boolean addBook(Book book) {
+		try {
+			PreparedStatement addBookStmt = conn.prepareStatement("INSERT INTO books(price, title, ISBN, authorFName, authorLName) VALUES (?, ?, ?, ?, ?);");
+			addBookStmt.setDouble(1, book.getPrice());
+			addBookStmt.setString(2, book.getTitle());
+			addBookStmt.setString(3, book.getISBN());
+			addBookStmt.setString(4, book.getAuthorFName());
+			addBookStmt.setString(5, book.getAuthorLName());
+			
+			if(addBookStmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+		}
+		catch(SQLException e) {
+			return false;
+		}
+	}
 }

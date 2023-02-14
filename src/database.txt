@@ -29,7 +29,7 @@ CREATE TABLE admins (
 CREATE TABLE books (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     price DOUBLE NOT NULL,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(60) NOT NULL,
     ISBN varchar(22) NOT NULL UNIQUE,
     authorFName varchar(20) NOT NULL,
     authorLName varchar(20) NOT NULL

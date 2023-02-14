@@ -166,4 +166,11 @@ public class DialogsHandler {
 				"There is already a book with this ISBN or title",
 				"Invalid Price", JOptionPane.WARNING_MESSAGE);
 	}
+	
+	public static void infoSuccess(JFrame frame, String title, String msg) {
+		JOptionPane.showMessageDialog(
+				frame,
+				msg,
+				title, JOptionPane.INFORMATION_MESSAGE);
+	}
 }
