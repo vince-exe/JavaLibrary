@@ -15,6 +15,7 @@ import javax.swing.border.LineBorder;
 
 import uiUtils.CredentialsChecker;
 import uiUtils.DialogsHandler;
+import database.Database;
 import database.User;
 
 import java.awt.event.WindowAdapter;
@@ -34,11 +35,13 @@ public class RegistrationWindow {
 	private JTextField emailField;
 	private JPasswordField passwordField;
 	private JLabel lblNewLabel;
-
+	
+	private static String[] args_;
 	/**
 	 * Launch the application.
 	 */
 	public static void startWindow(String[] args) {
+		args_ = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -67,8 +70,12 @@ public class RegistrationWindow {
 		frmRegistration.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				LoginWindow.enableWindow();
-			
+				if(args_[0] == "root" || args_[0] == "rootS") {
+					AdminWindow.enableWindow();
+				}
+				else if(args_[0] == "user") {
+					LoginWindow.enableWindow();
+				}
 			}
 		});
 		
@@ -136,6 +143,15 @@ public class RegistrationWindow {
 					
 				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText(), pwd, usrField.getText());
 				if(database.Database.registration(user)) {
+					
+					/* try to registrate an admin */
+					if(args_[0] == "rootS") {
+						int lastUserId = Database.getLastUserID();
+						if((lastUserId == -1) || !Database.registrationAdmin(lastUserId)) {
+							DialogsHandler.SQLErr(frmRegistration, "The database failed to sign-up the new admin.");
+							return;
+						}
+					}
 					DialogsHandler.registrationSuccess(frmRegistration);
 					frmRegistration.dispatchEvent(new WindowEvent(frmRegistration, WindowEvent.WINDOW_CLOSING));
 				}

@@ -137,6 +137,12 @@ public class AdminWindow {
 			public void mouseExited(MouseEvent e) {
 				addCustomerBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String[] args = {"root"};
+				RegistrationWindow.startWindow(args);
+				frmAdmin.setEnabled(false);
+			}
 		});
 		addCustomerBtn.setForeground(new Color(222, 222, 222));
 		addCustomerBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
@@ -176,6 +182,12 @@ public class AdminWindow {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				addAdminBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String[] args = {"rootS"};
+				RegistrationWindow.startWindow(args);
+				frmAdmin.setEnabled(false);
 			}
 		});
 		addAdminBtn.setForeground(new Color(222, 222, 222));

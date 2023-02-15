@@ -96,6 +96,37 @@ public class Database {
 		}
 	}
 	
+	public static int getLastUserID() {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT id FROM users ORDER BY users.id DESC LIMIT 1");
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt("id");
+			}
+			return -1;
+			
+		} catch (SQLException e) {
+			return -1;
+		}
+	}
+	
+	public static boolean registrationAdmin(int userID) {
+		try {
+			PreparedStatement adminStmt = conn.prepareStatement("INSERT INTO admins(userId) VALUES (?);");
+			adminStmt.setInt(1, userID);
+			
+			if(adminStmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+		}
+		catch(SQLException e) {
+			return false;
+		}
+	}
+	
 	public static boolean registration(User usr) {
 		try {
 			PreparedStatement personStmt = conn.prepareStatement("INSERT INTO persons(first_name, last_name, birth) VALUES (?, ?, ?);");

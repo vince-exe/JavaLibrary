@@ -151,8 +151,11 @@ public class LoginWindow implements FocusListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == text2) {
-			RegistrationWindow.startWindow(null);
 			window.setEnabled(false);
+			
+			String[] args = {"user"};
+			RegistrationWindow.startWindow(args);
+			
 			return;
 		}
 		
