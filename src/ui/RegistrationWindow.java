@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class RegistrationWindow {
+public class RegistrationWindow  {
 
 	private JFrame frmRegistration;
 	private JTextField fnField;

@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import org.json.simple.JSONObject;
 
-import ui.AddBookWindow;
-
 public class Library {
 
 	public static void main(String[] args) throws IOException {

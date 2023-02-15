@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 	private static Connection conn;
@@ -177,6 +178,30 @@ public class Database {
 		}
 		catch(SQLException e) {
 			return false;
+		}
+	}
+	
+	public static ArrayList<Book> getBooks() {
+		try {
+			PreparedStatement getBooksStmt = conn.prepareStatement("SELECT * FROM books");
+			
+			ResultSet result = getBooksStmt.executeQuery();
+			ArrayList<Book> array = new ArrayList<Book>();
+			
+			while(result.next()) {
+				array.add(new Book(
+						result.getInt(1),
+						result.getDouble(2),
+						result.getString(3),
+						result.getString(4),
+						result.getString(5),
+						result.getString(6)));
+			}
+			
+			return array;
+		}
+		catch(SQLException e) {
+			return null;
 		}
 	}
 }

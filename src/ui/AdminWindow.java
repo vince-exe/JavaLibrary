@@ -117,6 +117,11 @@ public class AdminWindow {
 			public void mouseExited(MouseEvent e) {
 				viewBooksBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frmAdmin.setEnabled(false);
+				ViewBooks.startWindow(null);
+			}
 		});
 		viewBooksBtn.setForeground(new Color(222, 222, 222));
 		viewBooksBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
