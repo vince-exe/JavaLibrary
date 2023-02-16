@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -117,6 +118,16 @@ public class LoginWindow implements FocusListener, MouseListener {
 		loginBtn.setFocusPainted(false);
 		loginBtn.setForeground(WINDOW_FOREGROUND_COLOR);
 		loginBtn.setContentAreaFilled(false);
+		loginBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				loginBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				loginBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+		});
 		
 		copyRight = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
 		copyRight.setFont(new Font("MV Bold", Font.BOLD, 11));
