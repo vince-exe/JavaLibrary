@@ -5,10 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -19,17 +18,23 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+
 import database.Book;
 import uiUtils.DialogsHandler;
 import uiUtils.MyMatrix;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
+import java.awt.Toolkit;
 
 public class ViewBooks extends JTable{
 
@@ -42,6 +47,7 @@ public class ViewBooks extends JTable{
 	private TableColumnModel columnModel;
 	private JButton btnUpdate;
 	private JTable table;
+	private JLabel dateLabel;
 	
 	/**
 	 * Launch the application.
@@ -97,6 +103,7 @@ public class ViewBooks extends JTable{
 	 */
 	private void initialize() {
 		frmBooksMenu = new JFrame();
+		frmBooksMenu.setIconImage(Toolkit.getDefaultToolkit().getImage(ViewBooks.class.getResource("/ui/resources/icon.png")));
 		frmBooksMenu.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -107,26 +114,6 @@ public class ViewBooks extends JTable{
 		frmBooksMenu.setResizable(false);
 		frmBooksMenu.getContentPane().setBackground(new Color(105, 50, 12));
 		frmBooksMenu.getContentPane().setLayout(null);
-		
-		JButton saveExitBtn = new JButton("Save | Exit");
-		saveExitBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				saveExitBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				saveExitBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-			}
-		});
-		saveExitBtn.setForeground(new Color(222, 222, 222));
-		saveExitBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-		saveExitBtn.setFocusPainted(false);
-		saveExitBtn.setContentAreaFilled(false);
-		saveExitBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		saveExitBtn.setBackground(new Color(145, 74, 23));
-		saveExitBtn.setBounds(20, 19, 129, 47);
-		frmBooksMenu.getContentPane().add(saveExitBtn);
 		
 		searchBox = new JTextField();
 		searchBox.addFocusListener(new FocusAdapter() {
@@ -152,7 +139,7 @@ public class ViewBooks extends JTable{
 		searchBox.setCaretColor(new Color(222, 222, 222));
 		searchBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		searchBox.setBackground(new Color(145, 74, 23));
-		searchBox.setBounds(179, 22, 254, 44);
+		searchBox.setBounds(20, 22, 254, 44);
 		frmBooksMenu.getContentPane().add(searchBox);
 		
 		searchBtn = new JButton("Go");
@@ -172,7 +159,7 @@ public class ViewBooks extends JTable{
 		searchBtn.setContentAreaFilled(false);
 		searchBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		searchBtn.setBackground(new Color(145, 74, 23));
-		searchBtn.setBounds(460, 22, 73, 44);
+		searchBtn.setBounds(307, 22, 80, 44);
 		frmBooksMenu.getContentPane().add(searchBtn);
 		
 		resetBtn = new JButton("Reset");
@@ -192,11 +179,11 @@ public class ViewBooks extends JTable{
 		resetBtn.setContentAreaFilled(false);
 		resetBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		resetBtn.setBackground(new Color(145, 74, 23));
-		resetBtn.setBounds(550, 22, 73, 44);
+		resetBtn.setBounds(419, 22, 80, 44);
 		frmBooksMenu.getContentPane().add(resetBtn);
 		
 		MyMatrix<String> myMatrix = fetchBooks();
-		
+	    
 		table = new JTable(myMatrix.getMatrix(), columnsName);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -211,6 +198,7 @@ public class ViewBooks extends JTable{
 		table.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		table.setBackground(new Color(145, 74, 23));
 		table.setBounds(20, 90, 640, 237);
+
 		frmBooksMenu.getContentPane().add(table);
 		frmBooksMenu.setBounds(100, 100, 697, 472);
 		frmBooksMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -247,6 +235,16 @@ public class ViewBooks extends JTable{
 	    table.setDefaultEditor(col_class, null);  
 	    
 		btnUpdate = new JButton("Update");
+		btnUpdate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+		});
 		btnUpdate.setForeground(new Color(222, 222, 222));
 		btnUpdate.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 		btnUpdate.setFocusPainted(false);
@@ -257,6 +255,16 @@ public class ViewBooks extends JTable{
 		frmBooksMenu.getContentPane().add(btnUpdate);
 		
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+		});
 		btnRemove.setForeground(new Color(222, 222, 222));
 		btnRemove.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 		btnRemove.setFocusPainted(false);
@@ -273,5 +281,15 @@ public class ViewBooks extends JTable{
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 		lblNewLabel.setBounds(172, 409, 348, 19);
 		frmBooksMenu.getContentPane().add(lblNewLabel);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");  
+		LocalDateTime now = LocalDateTime.now();  
+		
+		dateLabel = new JLabel(dtf.format(now));
+		dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dateLabel.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 19));
+		dateLabel.setForeground(new Color(222, 222, 222));
+		dateLabel.setBounds(529, 22, 131, 44);
+		frmBooksMenu.getContentPane().add(dateLabel);
 	}
 }
