@@ -10,7 +10,7 @@ public class AddBookChecker {
 	public static final int ISBN_LEN_MIN = 5;
 	
 	public static final int MAX_AUTHOR_NAME = 20;
-	public static final int MIN_AUTHOR_NAME = 5;
+	public static final int MIN_AUTHOR_NAME = 1;
 	
 	public static final int PRICE_MIN = 0;
 	public static final int PRICE_MAX = 100;

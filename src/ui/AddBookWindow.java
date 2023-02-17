@@ -253,7 +253,7 @@ public class AddBookWindow {
 					return;
 				}
 
-				if(!Database.addBook(new Book(Double.parseDouble(priceBox.getText()), titleBox.getText(), IsbnBox.getText(), authorFBox.getText(), authorLBox.getText()))) {
+				if(!Database.addBook(new Book(Double.parseDouble(priceBox.getText()), titleBox.getText(), IsbnBox.getText().toUpperCase(), authorFBox.getText(), authorLBox.getText()))) {
 					DialogsHandler.SQLErr(frmAddBook, "The database failed to upload the book. Please try again");
 					return;
 				};

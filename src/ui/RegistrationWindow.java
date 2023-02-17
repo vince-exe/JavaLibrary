@@ -134,14 +134,14 @@ public class RegistrationWindow  {
 						lnField.getText(),
 						usrField.getText(),
 						dateField.getText(),
-						emailField.getText(),
+						emailField.getText().toLowerCase(),
 						pwd,
 						frmRegistration)) {
 					
 					return;
 				}
 					
-				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText(), pwd, usrField.getText());
+				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText().toLowerCase(), pwd, usrField.getText());
 				if(database.Database.registration(user)) {
 					
 					/* try to registrate an admin */

@@ -173,7 +173,7 @@ public class LoginWindow implements FocusListener, MouseListener {
 		if(e.getSource() == loginBtn) {
 			String pwd = new String(passwordBox.getPassword());
 			
-			int userId = CredentialsChecker.handleLogin(emailBox.getText(), pwd, window);
+			int userId = CredentialsChecker.handleLogin(emailBox.getText().toLowerCase(), pwd, window);
 			if(userId == -1) { return; }
 			
 			try {

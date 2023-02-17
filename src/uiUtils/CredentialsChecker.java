@@ -17,11 +17,11 @@ public class CredentialsChecker {
 	private static final int MIN_LEN_PSW = 8;
 	private static final int MAX_LEN_PSW = 30;
 	
-	private static final int MIN_LEN_NAME = 5;
+	private static final int MIN_LEN_NAME = 1;
 	private static final int MAX_LEN_NAME = 20;
 	
 	private static final int MAX_LEN_USERNAME = 20;
-	private static final int MIN_LEN_USERNAME = 6;
+	private static final int MIN_LEN_USERNAME = 4;
 	
 	public static boolean handleEmail(String value, String  diffFrom, JFrame frame) {
 		if(value.length() > MAX_LEN_EMAIL || value.length() < MIN_LEN_EMAIL) {

@@ -5,10 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import java.awt.Font;
@@ -20,8 +24,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import database.Book;
+import main.MyMatrix;
 import uiUtils.DialogsHandler;
-import uiUtils.MyMatrix;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -35,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import java.awt.Toolkit;
+import javax.swing.JScrollBar;
 
 public class ViewBooks extends JTable{
 
@@ -48,6 +53,7 @@ public class ViewBooks extends JTable{
 	private JButton btnUpdate;
 	private JTable table;
 	private JLabel dateLabel;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Launch the application.
@@ -185,6 +191,7 @@ public class ViewBooks extends JTable{
 		MyMatrix<String> myMatrix = fetchBooks();
 	    
 		table = new JTable(myMatrix.getMatrix(), columnsName);
+		table.setSelectionBackground(new Color(170, 80, 19));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -198,10 +205,25 @@ public class ViewBooks extends JTable{
 		table.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		table.setBackground(new Color(145, 74, 23));
 		table.setBounds(20, 90, 640, 237);
-
-		frmBooksMenu.getContentPane().add(table);
+		table.getTableHeader().setBackground(new Color(145, 74, 23));
+		table.getTableHeader().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		table.getTableHeader().setForeground(table.getGridColor());
+		table.getTableHeader().setBorder(BorderFactory.createMatteBorder(4, 4, 0, 4, new Color(64, 38, 11)));
+			
 		frmBooksMenu.setBounds(100, 100, 697, 472);
 		frmBooksMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+		scrollPane = new JScrollPane(table);
+		scrollPane.setRequestFocusEnabled(false);
+		scrollPane.getViewport().getView().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		scrollPane.setBackground(new Color(105, 50, 12));
+		scrollPane.getVerticalScrollBar().setBackground(new Color(145, 74, 23));
+		scrollPane.setBounds(20, 90, 640, 237);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setViewportView(table);
+		frmBooksMenu.getContentPane().add(scrollPane);
+		
+		table.getTableHeader().setPreferredSize(new Dimension(scrollPane.getWidth(), 38));
 		
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);

@@ -1,4 +1,4 @@
-package uiUtils;
+package main;
 
 public class MyMatrix <T> {
 	private T [][] myMatrix;
