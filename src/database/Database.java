@@ -204,4 +204,19 @@ public class Database {
 			return null;
 		}
 	}
+	
+	public static boolean deleteBook(int id) {
+		try {
+			PreparedStatement delStmt = conn.prepareStatement("DELETE FROM books WHERE books.id = ?;");
+			delStmt.setInt(1, id);
+			
+			if(delStmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+		}
+		catch(SQLException e) {
+			return false;
+		}
+	}
 }

@@ -11,8 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import java.awt.Font;
@@ -24,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import database.Book;
-import main.MyMatrix;
 import uiUtils.DialogsHandler;
 
 import java.awt.event.WindowAdapter;
@@ -39,9 +37,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import java.awt.Toolkit;
-import javax.swing.JScrollBar;
 
-public class ViewBooks extends JTable{
+public class ViewBooks {
 
 	private JFrame frmBooksMenu;
 	private JTextField searchBox;
@@ -53,8 +50,6 @@ public class ViewBooks extends JTable{
 	private JButton btnUpdate;
 	private JTable table;
 	private JLabel dateLabel;
-	private JScrollPane scrollPane;
-	
 	/**
 	 * Launch the application.
 	 */
@@ -70,33 +65,30 @@ public class ViewBooks extends JTable{
 			}
 		});
 	}
-	
-	@Override
-	public boolean isCellEditable(int row, int col) {
-		return false;
-	}
-	
-	private MyMatrix<String> fetchBooks() {
-		ArrayList<Book> array = database.Database.getBooks();		
+
+	private boolean fetchBook(JTable table) {
+		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		
+		ArrayList<Book> array = database.Database.getBooks();
 		if(array == null) {
-			DialogsHandler.SQLErr(null, "The database failed to send the book");
-			new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING);
+			return false;
 		}
-		
-		MyMatrix<String> myMatrix = new MyMatrix<String>(array.size(), 6);
 		
 		for(int i = 0; i < array.size(); i++) {
-			myMatrix.add(i, 0, Integer.toString(array.get(i).getId()));
-			myMatrix.add(i, 1, Double.toString(array.get(i).getPrice()));
-			myMatrix.add(i, 2, array.get(i).getTitle());
-			myMatrix.add(i, 3, array.get(i).getISBN());
-			myMatrix.add(i, 4, array.get(i).getAuthorFName());
-			myMatrix.add(i, 5, array.get(i).getAuthorLName());
+			String[] data = new String[6];
+			
+			data[0] = Integer.toString(array.get(i).getId());
+			data[1] = Double.toString(array.get(i).getPrice());
+			data[2] = array.get(i).getTitle();
+			data[3] = array.get(i).getISBN();
+			data[4] = array.get(i).getAuthorFName();
+			data[5] = array.get(i).getAuthorLName();
+			
+			tableModel.addRow(data);
 		}
-		return myMatrix;
+		table.setModel(tableModel);
+		return true;
 	}
-	
 	/**
 	 * Create the application.
 	 */
@@ -187,17 +179,11 @@ public class ViewBooks extends JTable{
 		resetBtn.setBackground(new Color(145, 74, 23));
 		resetBtn.setBounds(419, 22, 80, 44);
 		frmBooksMenu.getContentPane().add(resetBtn);
-		
-		MyMatrix<String> myMatrix = fetchBooks();
 	    
-		table = new JTable(myMatrix.getMatrix(), columnsName);
+		table = new JTable();
+	    DefaultTableModel contactTableModel = (DefaultTableModel) table.getModel();
+	    contactTableModel.setColumnIdentifiers(columnsName);
 		table.setSelectionBackground(new Color(170, 80, 19));
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.print("\nRow: " + table.getSelectedRow());
-			}
-		});
 		table.setRowHeight(30);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setForeground(new Color(222, 222, 222));
@@ -207,14 +193,15 @@ public class ViewBooks extends JTable{
 		table.setBounds(20, 90, 640, 237);
 		table.getTableHeader().setBackground(new Color(145, 74, 23));
 		table.getTableHeader().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		table.getTableHeader().setForeground(table.getGridColor());
+		table.getTableHeader().setForeground(new Color(222, 222, 222));
 		table.getTableHeader().setBorder(BorderFactory.createMatteBorder(4, 4, 0, 4, new Color(64, 38, 11)));
 			
 		frmBooksMenu.setBounds(100, 100, 697, 472);
 		frmBooksMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
-		scrollPane = new JScrollPane(table);
-		scrollPane.setRequestFocusEnabled(false);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.getViewport().setBackground(new Color(105, 50, 12));
+		scrollPane.setEnabled(false);
 		scrollPane.getViewport().getView().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		scrollPane.setBackground(new Color(105, 50, 12));
 		scrollPane.getVerticalScrollBar().setBackground(new Color(145, 74, 23));
@@ -256,6 +243,11 @@ public class ViewBooks extends JTable{
 	    Class<?> col_class = table.getColumnClass(0);
 	    table.setDefaultEditor(col_class, null);  
 	    
+	    if(!fetchBook(table)) {
+	    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
+	    	new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING);
+	    }
+	    
 		btnUpdate = new JButton("Update");
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
@@ -285,6 +277,32 @@ public class ViewBooks extends JTable{
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(frmBooksMenu);
+					return;
+				}
+				int value = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+				String title = table.getModel().getValueAt(table.getSelectedRow(), 2).toString();
+				
+				int resp = DialogsHandler.YesNoDialog(frmBooksMenu, "Confirm Box", "Are you sure that you want to remove the book \"" + title + "\"");
+				if(resp != 0) {
+					return;
+				}
+				
+				if(!database.Database.deleteBook(value)) {
+					DialogsHandler.SQLErr(frmBooksMenu, "The database failed to delete the record.");
+					return;
+				}
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				tableModel.setRowCount(0);
+
+				if(!fetchBook(table)) {
+			    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
+			    	new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING);
+				}
 			}
 		});
 		btnRemove.setForeground(new Color(222, 222, 222));
