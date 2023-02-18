@@ -3,17 +3,6 @@ package uiUtils;
 import java.sql.SQLException;
 
 public class AddBookChecker {
-	public static final int TITLE_LEN_MAX = 40;
-	public static final int TITLE_LEN_MIN = 1;
-
-	public static final int ISBN_LEN_MAX = 22;
-	public static final int ISBN_LEN_MIN = 5;
-	
-	public static final int MAX_AUTHOR_NAME = 20;
-	public static final int MIN_AUTHOR_NAME = 1;
-	
-	public static final int PRICE_MIN = 0;
-	public static final int PRICE_MAX = 100;
 	
 	public static boolean handleName(String s, String ignore, String subject, int minLen, int maxLen) {
 		if(s.equals(ignore) || s.length() < minLen || s.length() > maxLen) {
@@ -49,30 +38,10 @@ public class AddBookChecker {
 		}
 	}
 	
-	public static boolean handlePrice(String s, int min, int max) {
-		s = s.replace(',', '.');
-
-		double price;
-		try {
-			price = Double.parseDouble(s);
-		}
-		catch(Exception e) {
-			DialogsHandler.priceErr(null, min, max);
-			return false;
-		}
-		
-		if(price < min || price > max) {
-			DialogsHandler.priceErr(null, min, max);
-			return false;
-		}
-		
-		return true;
-	}
-	
 	public static boolean handleAddBook(String autFN, String autLN, String price, String ISBN, String title) {
-		return handleName(autFN, "Author Name", "first", MIN_AUTHOR_NAME, MAX_AUTHOR_NAME) && 
-			   handleName(autLN, "Author Surname", "last", MIN_AUTHOR_NAME, MAX_AUTHOR_NAME) && 
-			   handlePrice(price, PRICE_MIN, PRICE_MAX) &&
-			   handleIsbnTitle(ISBN, "ISBN", title, "Book Title", ISBN_LEN_MIN, ISBN_LEN_MAX, TITLE_LEN_MIN, TITLE_LEN_MAX);
+		return handleName(autFN, "Author Name", "first", BookFinals.MIN_AUTHOR_NAME, BookFinals.MAX_AUTHOR_NAME) && 
+			   handleName(autLN, "Author Surname", "last", BookFinals.MIN_AUTHOR_NAME, BookFinals.MAX_AUTHOR_NAME) &&
+			   BookFinals.handlePrice(price, BookFinals.PRICE_MIN, BookFinals.PRICE_MAX) &&
+			   handleIsbnTitle(ISBN, "ISBN", title, "Book Title", BookFinals.ISBN_LEN_MIN, BookFinals.ISBN_LEN_MAX, BookFinals.TITLE_LEN_MIN, BookFinals.TITLE_LEN_MAX);
 	}
 }

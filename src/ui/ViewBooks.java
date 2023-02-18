@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -50,6 +51,13 @@ public class ViewBooks {
 	private JButton btnUpdate;
 	private JTable table;
 	private JLabel dateLabel;
+	
+	private static ViewBooks __window;
+	
+	public static void enableWindow() {
+		__window.frmBooksMenu.setEnabled(true);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -58,6 +66,7 @@ public class ViewBooks {
 			public void run() {
 				try {
 					ViewBooks window = new ViewBooks();
+					__window = window;
 					window.frmBooksMenu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,6 +110,7 @@ public class ViewBooks {
 	 */
 	private void initialize() {
 		frmBooksMenu = new JFrame();
+		frmBooksMenu.setAutoRequestFocus(false);
 		frmBooksMenu.setIconImage(Toolkit.getDefaultToolkit().getImage(ViewBooks.class.getResource("/ui/resources/icon.png")));
 		frmBooksMenu.addWindowListener(new WindowAdapter() {
 			@Override
@@ -257,6 +267,28 @@ public class ViewBooks {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TableModel model = table.getModel();
+				
+				int selectedRow = table.getSelectedRow();
+				if(selectedRow == -1) {
+					DialogsHandler.invalidRow(frmBooksMenu);
+					return;
+				}
+				
+				Book book = new Book(
+						Integer.parseInt(model.getValueAt(selectedRow, 0).toString()),
+						Double.parseDouble(model.getValueAt(selectedRow, 1).toString()),
+						model.getValueAt(selectedRow, 2).toString(),
+						model.getValueAt(selectedRow, 3).toString(),
+						model.getValueAt(selectedRow, 4).toString(),
+						model.getValueAt(selectedRow, 5).toString()
+				);
+				
+				UpdtBookWindow.startWindow(columnsName, book);
+				frmBooksMenu.setEnabled(false);
 			}
 		});
 		btnUpdate.setForeground(new Color(222, 222, 222));

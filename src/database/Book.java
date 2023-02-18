@@ -7,7 +7,27 @@ public class Book {
 	private String ISBN;
 	private String authorFName;
 	private String authorLName;
-
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) {
+			return true;
+		}
+		
+        if (!(o instanceof Book)) {
+            return false;
+        }
+        
+        Book c = (Book) o;
+        return 
+        	   id == c.id && 
+        	   price == c.price && 
+        	   title.equals(c.title) && 
+        	   ISBN.equals(c.ISBN) && 
+        	   authorFName.equals(c.authorFName) && 
+        	   authorLName.equals(c.authorLName);
+	}
+	
 	public Book(int id_, Double price_, String title_, String ISBN_, String aFN_, String aLN_) {
 		id = id_;
 		price = price_;
