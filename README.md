@@ -1,5 +1,8 @@
 # JavaLibrary
 
 ## TO-DO-LIST<br>
-### VIEW BOOKS
-#### completare la view boos UI
+### UPDATE-BOOK
+#### completare l'update Book<br>
+
+#### GENERALE ( URGENTE )
+#### fare in modo che il nome ed il cognome dell'autore non possano contenere lettere ( se possibile limitare la cosa già dal box )
