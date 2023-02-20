@@ -249,6 +249,11 @@ public class AddBookWindow {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(CredentialsChecker.hasANumber(authorFBox.getText()) || CredentialsChecker.hasANumber(authorLBox.getText())) {
+					DialogsHandler.generalWarning(null, "Invalid Names", "First / Last name can't contains numbers");
+					return;
+				}
+				
 				if(!AddBookChecker.handleAddBook(authorFBox.getText(), authorLBox.getText(), priceBox.getText(), IsbnBox.getText(), titleBox.getText())) {
 					return;
 				}

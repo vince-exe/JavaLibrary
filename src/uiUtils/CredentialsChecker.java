@@ -43,6 +43,16 @@ public class CredentialsChecker {
 		return true;
 	}
 	
+	public static boolean hasANumber(String s) {
+		for(int i = 0; i < s.length(); i++) {
+			if(Character.isDigit(s.charAt(i))) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static boolean handlePwd(String value, String  diffFrom, JFrame frame) {
 		if(value.length() > MAX_LEN_PSW || value.length() < MIN_LEN_PSW) {
 			DialogsHandler.pwdLengthErr(frame, MAX_LEN_PSW, MAX_LEN_EMAIL);
