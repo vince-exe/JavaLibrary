@@ -187,6 +187,13 @@ public class DialogsHandler {
 				title, JOptionPane.INFORMATION_MESSAGE, infoIcon);
 	}
 	
+	public static void generalWarning(JFrame frame, String title, String msg) {
+		JOptionPane.showMessageDialog(
+				frame,
+				msg,
+				title, JOptionPane.INFORMATION_MESSAGE, warningIcon);
+	}
+	
 	public static int YesNoDialog(JFrame frame, String title, String message) {
 		return JOptionPane.showConfirmDialog(frame, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, questionIcon);
 	}

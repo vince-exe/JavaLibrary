@@ -72,7 +72,7 @@ public class ViewBooks {
 		});
 	}
 
-	public static boolean fetchBook(JTable table) {
+	public static boolean fetchBooks(JTable table) {
 		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		
 		ArrayList<Book> array = database.Database.getBooks();
@@ -183,9 +183,9 @@ public class ViewBooks {
 	    Class<?> col_class = table.getColumnClass(0);
 	    table.setDefaultEditor(col_class, null);  
 	    
-	    if(!fetchBook(table)) {
+	    if(!fetchBooks(table)) {
 	    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
-	    	new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING);
+	    	frmBooksMenu.dispatchEvent(new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING));
 	    }
 	    
 		btnUpdate = new JButton("Update");
@@ -223,7 +223,7 @@ public class ViewBooks {
 					DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 					tableModel.setRowCount(0);
 
-					if(!fetchBook(table)) {
+					if(!fetchBooks(table)) {
 				    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
 				    	frmBooksMenu.dispatchEvent(new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING));
 					}
@@ -270,7 +270,7 @@ public class ViewBooks {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 				tableModel.setRowCount(0);
 
-				if(!fetchBook(table)) {
+				if(!fetchBooks(table)) {
 			    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
 			    	frmBooksMenu.dispatchEvent(new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING));
 				}

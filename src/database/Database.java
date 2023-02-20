@@ -61,7 +61,7 @@ public class Database {
 		return checkStmt.executeQuery().next();
 	}
 	
-	public static database.User getUser(int id) throws SQLException {
+	public static User getUser(int id) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement("select "
 				+ "persons.id,"
 				+ "persons.first_name,"
@@ -78,7 +78,37 @@ public class Database {
 		
 		if(!result.next()) { return null; }
 		
-		return new database.User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+		return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+	}
+	
+	public static ArrayList<User> getUsers() {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT "
+					+ "first_name,"
+					+ "last_name,"
+					+ "birth,"
+					+ "username,"
+					+ "email,"
+					+ "psw"
+					+ " FROM USERS JOIN persons ON users.personId = persons.id");
+			
+			ArrayList<User> usersList = new ArrayList<User>();
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				usersList.add(new User(
+						result.getString(1),
+						result.getString(2),
+						result.getString(3),
+						result.getString(5),
+						result.getString(6),
+						result.getString(4)));
+			}
+			return usersList;
+			
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 	
 	public static int[] isLogged(String email, String password) throws SQLException {
@@ -139,6 +169,53 @@ public class Database {
 		}
 	}
 	
+	public static int getUserID(String email) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT id FROM users WHERE users.email = ?");
+			stmt.setString(1, email);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt("id");
+			}
+			return -1;
+			
+		} catch (SQLException e) {
+			return -1;
+		}
+	}
+	
+	public static boolean deleteUser(int id) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM users WHERE users.id = ?");
+			stmt.setInt(1, id);
+			
+			if(stmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	
+	public static boolean deletePerson(int id) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM persons WHERE persons.id = ?");
+			stmt.setInt(1, id);
+			
+			if(stmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	
 	public static boolean registrationAdmin(int userID) {
 		try {
 			PreparedStatement adminStmt = conn.prepareStatement("INSERT INTO admins(userId) VALUES (?);");
@@ -156,10 +233,11 @@ public class Database {
 	
 	public static boolean registration(User usr) {
 		try {
-			PreparedStatement personStmt = conn.prepareStatement("INSERT INTO persons(first_name, last_name, birth) VALUES (?, ?, ?);");
+			PreparedStatement personStmt = conn.prepareStatement("INSERT INTO persons(first_name, last_name, birth, money) VALUES (?, ?, ?, ?);");
 			personStmt.setString(1, usr.getFirstName());
 			personStmt.setString(2, usr.getLastName());
 			personStmt.setString(3, usr.getBDay());
+			personStmt.setDouble(4, usr.getMoney());
 			
 			if(personStmt.executeUpdate() < 0) {
 				return false;

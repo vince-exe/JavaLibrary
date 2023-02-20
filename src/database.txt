@@ -6,7 +6,8 @@ CREATE TABLE persons (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
-    birth DATE NOT NULL
+    birth DATE NOT NULL,
+    money DOUBLE NOT NULL
 );
 
 CREATE TABLE users (
@@ -35,6 +36,6 @@ CREATE TABLE books (
     authorLName varchar(20) NOT NULL
 );
 
-INSERT INTO persons(first_name, last_name, birth) VALUES ("root", "root", "1990-10-9");
+INSERT INTO persons(first_name, last_name, birth, money) VALUES ("root", "root", "1990-10-9", 1000);
 INSERT INTO users(personId, username, email, psw) VALUES (1, "root", "root@gmail.com", "root1234"); 
 INSERT INTO admins(userId) VALUES (1);

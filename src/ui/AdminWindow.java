@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +28,9 @@ public class AdminWindow {
 	
 	private JButton infoBtn;
 	
+	public static final User getAdmin() {
+		return admin;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -167,6 +171,10 @@ public class AdminWindow {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				viewCustomersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ViewCustomersDialog.startWindow(null);
 			}
 		});
 		viewCustomersBtn.setForeground(new Color(222, 222, 222));

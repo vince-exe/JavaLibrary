@@ -13,6 +13,13 @@ public class User extends Person {
 		username = username_;
 	}
 	
+	public User(String fN, String lN, String birdD, String email_, String password_, String username_, double money) {
+		super(fN, lN, birdD, money);
+		email = email_;
+		password = password_;
+		username = username_;
+	}
+	
 	public User(String fN, String lN, String birdD, String email_, String password_, String username_) {
 		super(fN, lN, birdD);
 		email = email_;

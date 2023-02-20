@@ -5,11 +5,20 @@ public abstract class Person {
 	
 	protected String firstName, lastName, birdDDAte;
 	
+	protected double money;
+	
 	public Person(int id_, String fN, String lN, String birdD) {
 		idPerson = id_;
 		firstName = fN;
 		lastName = lN;
 		birdDDAte = birdD;
+	}
+	
+	public Person(String fN, String lN, String birdD, double my) {
+		firstName = fN;
+		lastName = lN;
+		birdDDAte = birdD;
+		money = my;
 	}
 	
 	public Person(String fN, String lN, String birdD) {
@@ -32,5 +41,9 @@ public abstract class Person {
 	
 	public int getIdPerson() {
 		return idPerson;
+	}
+	
+	public double getMoney() {
+		return money;
 	}
 }

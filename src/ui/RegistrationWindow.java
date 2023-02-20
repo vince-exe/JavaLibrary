@@ -141,7 +141,7 @@ public class RegistrationWindow  {
 					return;
 				}
 					
-				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText().toLowerCase(), pwd, usrField.getText());
+				User user = new User(fnField.getText(), lnField.getText(), dateField.getText(), emailField.getText().toLowerCase(), pwd, usrField.getText(), 1000);
 				if(database.Database.registration(user)) {
 					
 					/* try to registrate an admin */
