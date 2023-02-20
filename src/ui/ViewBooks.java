@@ -9,6 +9,7 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -49,7 +50,7 @@ public class ViewBooks {
 	private String columnsName[] = {"Id", "Price", "Title", "ISBN", "Author F.N", "Author L.N"};
 	private TableColumnModel columnModel;
 	private JButton btnUpdate;
-	private JTable table;
+	public static JTable table;
 	private JLabel dateLabel;
 	
 	private static ViewBooks __window;
@@ -75,7 +76,7 @@ public class ViewBooks {
 		});
 	}
 
-	private boolean fetchBook(JTable table) {
+	public static boolean fetchBook(JTable table) {
 		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		
 		ArrayList<Book> array = database.Database.getBooks();
@@ -287,8 +288,17 @@ public class ViewBooks {
 						model.getValueAt(selectedRow, 5).toString()
 				);
 				
-				UpdtBookWindow.startWindow(columnsName, book);
-				frmBooksMenu.setEnabled(false);
+				UpdtBookDialog.startWindow(columnsName, book);
+				
+				if(UpdtBookDialog.updateABook) {
+					DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+					tableModel.setRowCount(0);
+
+					if(!fetchBook(table)) {
+				    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
+				    	frmBooksMenu.dispatchEvent(new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING));
+					}
+				}
 			}
 		});
 		btnUpdate.setForeground(new Color(222, 222, 222));
@@ -333,7 +343,7 @@ public class ViewBooks {
 
 				if(!fetchBook(table)) {
 			    	DialogsHandler.SQLErr(frmBooksMenu, "The application failed to read the books.");
-			    	new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING);
+			    	frmBooksMenu.dispatchEvent(new WindowEvent(frmBooksMenu, WindowEvent.WINDOW_CLOSING));
 				}
 			}
 		});

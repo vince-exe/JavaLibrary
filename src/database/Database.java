@@ -20,6 +20,32 @@ public class Database {
 		conn = DriverManager.getConnection(dbUrl, username, password);
 	}
 	
+	public static boolean updateBook(int id, Book book) {
+		try {
+			PreparedStatement updtStmt = conn.prepareStatement("UPDATE books SET "
+					+ "price = ?,"
+					+ "title = ?,"
+					+ "ISBN = ?,"
+					+ "authorFName = ?,"
+					+ "authorLName = ? "
+					+ "WHERE id = ?;");
+			updtStmt.setDouble(1, book.getPrice());
+			updtStmt.setString(2, book.getTitle());
+			updtStmt.setString(3, book.getISBN());
+			updtStmt.setString(4, book.getAuthorFName());
+			updtStmt.setString(5, book.getAuthorLName());
+			updtStmt.setInt(6, id);
+			
+			if(updtStmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	
 	public static boolean existBook(String isbn, String title) throws SQLException {
 		PreparedStatement bookStmt = conn.prepareStatement("SELECT id FROM books WHERE books.ISBN = ? OR books.title = ?;");
 		bookStmt.setString(1, isbn);

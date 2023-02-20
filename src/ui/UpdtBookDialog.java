@@ -1,99 +1,87 @@
 package ui;
 
-import database.*;
-import uiUtils.AddBookChecker;
-import uiUtils.BookFinals;
-import uiUtils.UpdtBookChecker;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Toolkit;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.Rectangle;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import javax.swing.JButton;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-public class UpdtBookWindow {
+import database.Book;
+import database.Database;
+import uiUtils.BookFinals;
+import uiUtils.DialogsHandler;
+import uiUtils.UpdtBookChecker;
 
-	private JFrame frmUpdateBook;
+public class UpdtBookDialog extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
 	private JTextField authorFBox;
 	private JTextField authorLBox;
 	private JTextField ISBNBox;
 	private JTextField priceBox;
 	private JTextField bookTitleBox;
-	private JLabel lblNewLabel;
 	
+	public static boolean updateABook = false;
 	private static Book bookToUpdate;
-	
+	private static JDialog _dialog;
 	/**
 	 * Launch the application.
 	 */
 	public static void startWindow(String[] args, Book book) {
 		bookToUpdate = book;
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UpdtBookWindow window = new UpdtBookWindow();
-					window.frmUpdateBook.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			updateABook = false;
+			UpdtBookDialog dialog = new UpdtBookDialog();
+			_dialog = dialog;
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the application.
+	 * Create the dialog.
 	 */
-	public UpdtBookWindow() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmUpdateBook = new JFrame();
-		frmUpdateBook.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				ViewBooks.enableWindow();
-			}
-		});
-		frmUpdateBook.setTitle("Update Book");
-		frmUpdateBook.setResizable(false);
-		frmUpdateBook.setAutoRequestFocus(false);
-		frmUpdateBook.setIconImage(Toolkit.getDefaultToolkit().getImage(UpdtBookWindow.class.getResource("/ui/resources/icon.png")));
-		frmUpdateBook.getContentPane().setBackground(new Color(105, 50, 12));
-		frmUpdateBook.getContentPane().setLayout(null);
+	public UpdtBookDialog() {
+		setAutoRequestFocus(false);
+		setModal(true);
+		setResizable(false);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setTitle("Update Book");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UpdtBookDialog.class.getResource("/ui/resources/icon.png")));
+		setBounds(100, 100, 450, 420);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(105, 50, 12));
+		contentPanel.setBounds(new Rectangle(100, 100, 420, 450));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
 		
 		JLabel lblUpdateBook = new JLabel("Update Book");
 		lblUpdateBook.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUpdateBook.setForeground(new Color(222, 222, 222));
 		lblUpdateBook.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		lblUpdateBook.setBounds(97, 11, 236, 51);
-		frmUpdateBook.getContentPane().add(lblUpdateBook);
+		contentPanel.add(lblUpdateBook);
 		
 		authorFBox = new JTextField();
 		authorFBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				String pwd = new String(authorFBox.getText());
-				if(!pwd.equals(bookToUpdate.getAuthorFName())) {
-					return;
-				}
-				authorFBox.setText("");
-			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				String pwd = new String(authorFBox.getText());
@@ -111,18 +99,10 @@ public class UpdtBookWindow {
 		authorFBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		authorFBox.setBackground(new Color(145, 74, 23));
 		authorFBox.setBounds(40, 87, 165, 42);
-		frmUpdateBook.getContentPane().add(authorFBox);
+		contentPanel.add(authorFBox);
 		
 		authorLBox = new JTextField();
 		authorLBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				String pwd = new String(authorLBox.getText());
-				if(!pwd.equals(bookToUpdate.getAuthorLName())) {
-					return;
-				}
-				authorLBox.setText("");
-			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				String pwd = new String(authorLBox.getText());
@@ -140,18 +120,10 @@ public class UpdtBookWindow {
 		authorLBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		authorLBox.setBackground(new Color(145, 74, 23));
 		authorLBox.setBounds(234, 87, 165, 42);
-		frmUpdateBook.getContentPane().add(authorLBox);
+		contentPanel.add(authorLBox);
 		
 		ISBNBox = new JTextField();
 		ISBNBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				String pwd = new String(ISBNBox.getText());
-				if(!pwd.equals(bookToUpdate.getISBN())) {
-					return;
-				}
-				ISBNBox.setText("");
-			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				String pwd = new String(ISBNBox.getText());
@@ -169,18 +141,10 @@ public class UpdtBookWindow {
 		ISBNBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		ISBNBox.setBackground(new Color(145, 74, 23));
 		ISBNBox.setBounds(40, 154, 165, 42);
-		frmUpdateBook.getContentPane().add(ISBNBox);
+		contentPanel.add(ISBNBox);
 		
 		priceBox = new JTextField();
 		priceBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				String pwd = new String(priceBox.getText());
-				if(!pwd.equals(Double.toString(bookToUpdate.getPrice()))) {
-					return;
-				}
-				priceBox.setText("");
-			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				String pwd = new String(priceBox.getText());
@@ -198,18 +162,10 @@ public class UpdtBookWindow {
 		priceBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		priceBox.setBackground(new Color(145, 74, 23));
 		priceBox.setBounds(234, 154, 165, 42);
-		frmUpdateBook.getContentPane().add(priceBox);
+		contentPanel.add(priceBox);
 		
 		bookTitleBox = new JTextField();
 		bookTitleBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				String pwd = new String(bookTitleBox.getText());
-				if(!pwd.equals(bookToUpdate.getTitle())) {
-					return;
-				}
-				bookTitleBox.setText("");
-			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				String pwd = new String(bookTitleBox.getText());
@@ -227,15 +183,7 @@ public class UpdtBookWindow {
 		bookTitleBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		bookTitleBox.setBackground(new Color(145, 74, 23));
 		bookTitleBox.setBounds(82, 223, 272, 42);
-		frmUpdateBook.getContentPane().add(bookTitleBox);
-		
-		lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
-		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(new Color(186, 186, 186));
-		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		lblNewLabel.setBounds(40, 351, 348, 19);
-		frmUpdateBook.getContentPane().add(lblNewLabel);
+		contentPanel.add(bookTitleBox);
 		
 		JButton updateBtn = new JButton("Update Book");
 		updateBtn.addMouseListener(new MouseAdapter() {
@@ -266,11 +214,18 @@ public class UpdtBookWindow {
 				);
 				
 				if(book.equals(bookToUpdate)) {
-					System.out.print("\nSono uguali");
+					_dialog.dispose();
+					return;
 				}
-				else {
-					System.out.print("\nNon sono uguali");
+				
+				if(!Database.updateBook(bookToUpdate.getId(), book)) {
+					DialogsHandler.SQLErr(null, "The application failed to update the book");
+					return;
 				}
+				
+				DialogsHandler.infoSuccess(null, "Update Success", "The application has successfully updated the book");
+				updateABook = true;
+				_dialog.dispose();
 			}
 		});
 		updateBtn.setForeground(new Color(222, 222, 222));
@@ -280,8 +235,14 @@ public class UpdtBookWindow {
 		updateBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		updateBtn.setBackground(new Color(145, 74, 23));
 		updateBtn.setBounds(131, 287, 186, 50);
-		frmUpdateBook.getContentPane().add(updateBtn);
-		frmUpdateBook.setBounds(100, 100, 450, 420);
-		frmUpdateBook.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		contentPanel.add(updateBtn);
+		
+		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
+		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setForeground(new Color(186, 186, 186));
+		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		lblNewLabel.setBounds(40, 351, 348, 19);
+		contentPanel.add(lblNewLabel);
 	}
 }
