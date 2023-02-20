@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import org.json.simple.JSONObject;
 
+import uiUtils.DialogsHandler;
+
 public class Library {
 
 	public static void main(String[] args) throws IOException {
@@ -19,11 +21,11 @@ public class Library {
 			database.Database.connect();
 		} 
 		catch (ClassNotFoundException e) {
-			System.out.print("\nThe system failed to load the class");
+			DialogsHandler.SQLErr(null, "The system failed to load the class");
 			System.exit(1);
 		}
 		catch( SQLException e) {
-			e.printStackTrace();
+			DialogsHandler.SQLErr(null, e.getMessage());
 			System.exit(1);
 		}
 		

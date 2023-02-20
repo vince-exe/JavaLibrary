@@ -9,7 +9,6 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -43,9 +42,6 @@ import java.awt.Toolkit;
 public class ViewBooks {
 
 	private JFrame frmBooksMenu;
-	private JTextField searchBox;
-	private JButton searchBtn;
-	private JButton resetBtn;
 	
 	private String columnsName[] = {"Id", "Price", "Title", "ISBN", "Author F.N", "Author L.N"};
 	private TableColumnModel columnModel;
@@ -123,73 +119,6 @@ public class ViewBooks {
 		frmBooksMenu.setResizable(false);
 		frmBooksMenu.getContentPane().setBackground(new Color(105, 50, 12));
 		frmBooksMenu.getContentPane().setLayout(null);
-		
-		searchBox = new JTextField();
-		searchBox.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(!searchBox.getText().equals("Search Box")) {
-					return;
-				}
-				searchBox.setText("");
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(searchBox.getText().length() == 0) {
-					searchBox.setText("Search Box");
-				}
-			}
-		});
-		searchBox.setText("Search Box");
-		searchBox.setHorizontalAlignment(SwingConstants.CENTER);
-		searchBox.setForeground(new Color(222, 222, 222));
-		searchBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
-		searchBox.setColumns(10);
-		searchBox.setCaretColor(new Color(222, 222, 222));
-		searchBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		searchBox.setBackground(new Color(145, 74, 23));
-		searchBox.setBounds(20, 22, 254, 44);
-		frmBooksMenu.getContentPane().add(searchBox);
-		
-		searchBtn = new JButton("Go");
-		searchBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				searchBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				searchBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-			}
-		});
-		searchBtn.setForeground(new Color(222, 222, 222));
-		searchBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-		searchBtn.setFocusPainted(false);
-		searchBtn.setContentAreaFilled(false);
-		searchBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		searchBtn.setBackground(new Color(145, 74, 23));
-		searchBtn.setBounds(307, 22, 80, 44);
-		frmBooksMenu.getContentPane().add(searchBtn);
-		
-		resetBtn = new JButton("Reset");
-		resetBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				resetBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				resetBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-			}
-		});
-		resetBtn.setForeground(new Color(222, 222, 222));
-		resetBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-		resetBtn.setFocusPainted(false);
-		resetBtn.setContentAreaFilled(false);
-		resetBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		resetBtn.setBackground(new Color(145, 74, 23));
-		resetBtn.setBounds(419, 22, 80, 44);
-		frmBooksMenu.getContentPane().add(resetBtn);
 	    
 		table = new JTable();
 	    DefaultTableModel contactTableModel = (DefaultTableModel) table.getModel();
@@ -207,7 +136,7 @@ public class ViewBooks {
 		table.getTableHeader().setForeground(new Color(222, 222, 222));
 		table.getTableHeader().setBorder(BorderFactory.createMatteBorder(4, 4, 0, 4, new Color(64, 38, 11)));
 			
-		frmBooksMenu.setBounds(100, 100, 697, 472);
+		frmBooksMenu.setBounds(100, 100, 697, 388);
 		frmBooksMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -216,7 +145,7 @@ public class ViewBooks {
 		scrollPane.getViewport().getView().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		scrollPane.setBackground(new Color(105, 50, 12));
 		scrollPane.getVerticalScrollBar().setBackground(new Color(145, 74, 23));
-		scrollPane.setBounds(20, 90, 640, 237);
+		scrollPane.setBounds(15, 11, 640, 237);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setViewportView(table);
 		frmBooksMenu.getContentPane().add(scrollPane);
@@ -307,7 +236,7 @@ public class ViewBooks {
 		btnUpdate.setContentAreaFilled(false);
 		btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnUpdate.setBackground(new Color(145, 74, 23));
-		btnUpdate.setBounds(179, 338, 129, 47);
+		btnUpdate.setBounds(172, 266, 129, 47);
 		frmBooksMenu.getContentPane().add(btnUpdate);
 		
 		JButton btnRemove = new JButton("Remove");
@@ -353,7 +282,7 @@ public class ViewBooks {
 		btnRemove.setContentAreaFilled(false);
 		btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnRemove.setBackground(new Color(145, 74, 23));
-		btnRemove.setBounds(358, 338, 129, 47);
+		btnRemove.setBounds(358, 266, 129, 47);
 		frmBooksMenu.getContentPane().add(btnRemove);
 		
 		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
@@ -361,7 +290,7 @@ public class ViewBooks {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(186, 186, 186));
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		lblNewLabel.setBounds(172, 409, 348, 19);
+		lblNewLabel.setBounds(158, 324, 348, 19);
 		frmBooksMenu.getContentPane().add(lblNewLabel);
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");  
@@ -371,7 +300,7 @@ public class ViewBooks {
 		dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dateLabel.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 19));
 		dateLabel.setForeground(new Color(222, 222, 222));
-		dateLabel.setBounds(529, 22, 131, 44);
+		dateLabel.setBounds(524, 266, 131, 44);
 		frmBooksMenu.getContentPane().add(dateLabel);
 	}
 }
