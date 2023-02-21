@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -26,17 +25,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import database.Book;
 import uiUtils.DialogsHandler;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+
 import javax.swing.ScrollPaneConstants;
 
 public class ViewCustomersDialog extends JDialog {
@@ -52,8 +49,9 @@ public class ViewCustomersDialog extends JDialog {
 		try {
 			ViewCustomersDialog dialog = new ViewCustomersDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setModal(true);
+			dialog.setModalityType(DEFAULT_MODALITY_TYPE);
 			dialog.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,6 +85,7 @@ public class ViewCustomersDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ViewCustomersDialog() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(new Color(105, 50, 12));
 		setAutoRequestFocus(false);
 		setResizable(false);
@@ -116,6 +115,27 @@ public class ViewCustomersDialog extends JDialog {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				if(emailUsr.equals(AdminWindow.getAdmin().getEmail())) {
+					DialogsHandler.generalWarning(null, "Invalid Customer", "You can't update yourself");
+					return;
+				}
+				
+				database.User usr = database.Database.getUser(emailUsr);
+				if(usr == null) {
+					DialogsHandler.SQLErr(null, "The application failed to update the customer");
+					return;
+				}
+				
+				UpdtCustomerDialog.startWindow(columnsName, usr);
 			}
 		});
 

@@ -81,6 +81,31 @@ public class Database {
 		return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
 	}
 	
+	public static User getUser(String email) {
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement("select "
+					+ "persons.id,"
+					+ "persons.first_name,"
+					+ "persons.last_name,"
+					+ "persons.birth,"
+					+ "users.id,"
+					+ "users.email,"
+					+ "users.psw,"
+					+ "users.username "
+					+ "FROM users JOIN persons ON users.personId = persons.id WHERE users.email = ?;");
+			stmt.setString(1, email);
+			
+			ResultSet result = stmt.executeQuery();
+			if(!result.next()) { return null; }
+			
+			return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+		} 
+		catch (SQLException e) {
+			return null;
+		}		
+	}
+	
 	public static ArrayList<User> getUsers() {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT "
