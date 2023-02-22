@@ -61,12 +61,62 @@ public class Database {
 		return checkStmt.executeQuery().next();
 	}
 	
+	public static int existUsername(String username) {
+		try {
+			PreparedStatement checkStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.username = ?;");
+			checkStmt.setString(1, username);
+			
+			return (checkStmt.executeQuery().next()) ? 0 : 1;
+			
+		} catch (SQLException e) {
+			return -1;
+		}
+		
+	}
+	
+	public static boolean updateUsr(User user) {
+		try {
+			PreparedStatement personStmt = conn.prepareStatement("UPDATE persons SET"
+					+ " first_name = ?, last_name = ?, birth = ?, money = ? WHERE persons.id = ?;");
+			personStmt.setString(1, user.getFirstName());
+			personStmt.setString(2, user.getLastName());
+			personStmt.setString(3, user.getBDay());
+			personStmt.setDouble(4, user.getMoney());
+			personStmt.setInt(5, user.getIdPerson());
+			
+			if(personStmt.executeUpdate() < 0) {
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			return false;
+		}
+		
+		try {
+			PreparedStatement userStmt = conn.prepareStatement("UPDATE users SET"
+					+ " username = ?, email = ?, psw = ? WHERE users.id = ?;");
+			userStmt.setString(1, user.getUsername());
+			userStmt.setString(2, user.getEmail());
+			userStmt.setString(3, user.getPassword());
+			userStmt.setInt(4, user.getIdUser());
+			
+			if(userStmt.executeUpdate() < 0) {
+				return false;
+			}
+			
+			return true;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
 	public static User getUser(int id) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement("select "
 				+ "persons.id,"
 				+ "persons.first_name,"
 				+ "persons.last_name,"
 				+ "persons.birth,"
+				+ "persons.money,"
 				+ "users.id,"
 				+ "users.email,"
 				+ "users.psw,"
@@ -78,7 +128,7 @@ public class Database {
 		
 		if(!result.next()) { return null; }
 		
-		return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+		return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString().replace('-', '/'), result.getDouble(5), result.getInt(6), result.getString(7), result.getString(8), result.getString(9));
 	}
 	
 	public static User getUser(String email) {
@@ -89,6 +139,7 @@ public class Database {
 					+ "persons.first_name,"
 					+ "persons.last_name,"
 					+ "persons.birth,"
+					+ "persons.money,"
 					+ "users.id,"
 					+ "users.email,"
 					+ "users.psw,"
@@ -99,7 +150,7 @@ public class Database {
 			ResultSet result = stmt.executeQuery();
 			if(!result.next()) { return null; }
 			
-			return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString(), result.getInt(5), result.getString(6), result.getString(7), result.getString(8));
+			return new User(result.getInt(1), result.getString(2), result.getString(3), result.getDate(4).toString().replace('-', '/'), result.getDouble(5), result.getInt(6), result.getString(7), result.getString(8), result.getString(9));
 		} 
 		catch (SQLException e) {
 			return null;

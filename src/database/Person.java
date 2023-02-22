@@ -21,6 +21,14 @@ public abstract class Person {
 		money = my;
 	}
 	
+	public Person(int id_, String fN, String lN, String birdD, double my) {
+		idPerson = id_;
+		firstName = fN;
+		lastName = lN;
+		birdDDAte = birdD;
+		money = my;
+	}
+	
 	public Person(String fN, String lN, String birdD) {
 		firstName = fN;
 		lastName = lN;

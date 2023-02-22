@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.User;
+import uiUtils.CredentialsChecker;
+import uiUtils.DialogsHandler;
+
 import java.awt.Toolkit;
 import java.awt.Rectangle;
 import java.awt.Color;
@@ -15,7 +18,6 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import javax.swing.JPasswordField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.FocusAdapter;
@@ -34,6 +36,7 @@ public class UpdtCustomerDialog extends JDialog {
 	private JTextField emailField;
 	
 	public static boolean alreadyCreated = false;
+	public static boolean successUpdate;
 	private JTextField passwordBox;
 
 	/**
@@ -198,6 +201,56 @@ public class UpdtCustomerDialog extends JDialog {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(CredentialsChecker.hasANumber(firstNameBox.getText()) || CredentialsChecker.hasANumber(lastNameBox.getText())) {
+					DialogsHandler.generalWarning(null, "Invalid Names", "First / Last name can't contains numbers");
+					return;
+				}
+				if(!CredentialsChecker.handleUsername(usrField.getText(), null) ||
+				   !CredentialsChecker.handleBirdDate(dateField.getText(), null) || 
+				   !CredentialsChecker.handleEmail(emailField.getText(), null) ||
+				   !CredentialsChecker.handleNames(firstNameBox.getText(), null) ||
+				   !CredentialsChecker.handleNames(lastNameBox.getText(), null) || 
+				   !CredentialsChecker.handlePwd(passwordBox.getText(), null)) {
+					return;
+				}
+				
+				User user = new User(
+						userToUpdate.getIdPerson(),
+						firstNameBox.getText(),
+						lastNameBox.getText(),
+						dateField.getText(),
+						userToUpdate.getMoney(),
+						userToUpdate.getIdUser(),
+						emailField.getText(),
+						passwordBox.getText(),
+						usrField.getText()
+				);
+				
+				if(userToUpdate.equals(user)) {
+					dispose();
+					return;
+				}
+				
+				if(!user.getEmail().equals(userToUpdate.getEmail())) {
+					if(CredentialsChecker.handleEmailAlreadyExist(user.getEmail(), null) == -1) {
+						return;
+					}
+				}
+				
+				if(!user.getUsername().equals(userToUpdate.getUsername())) {
+					if(!CredentialsChecker.usernameAlreadyExist(user.getUsername(), null)) {
+						return;
+					}
+				}
+				
+				if(!database.Database.updateUsr(user)) {
+					DialogsHandler.SQLErr(null, "The application failed to update the users");
+					return;
+				}
+
+				DialogsHandler.infoSuccess(null, "Success Update", "The application successfully updated the user");
+				successUpdate = true;
+				dispose();
 			}
 		});
 		btnUpdate.setForeground(new Color(222, 222, 222));

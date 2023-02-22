@@ -135,7 +135,18 @@ public class ViewCustomersDialog extends JDialog {
 					return;
 				}
 				
+				UpdtCustomerDialog.successUpdate = false;
 				UpdtCustomerDialog.startWindow(columnsName, usr);
+				
+				if(UpdtCustomerDialog.successUpdate) {
+					DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+					tableModel.setRowCount(0);
+
+					if(!fetchUsers(table)) {
+				    	DialogsHandler.SQLErr(null, "The application failed to read the customers.");
+				    	dispose();
+					}
+				}
 			}
 		});
 

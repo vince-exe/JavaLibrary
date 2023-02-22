@@ -5,8 +5,40 @@ public class User extends Person {
 	
 	private String email, password, username;
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) {
+			return true;
+		}
+		
+        if (!(o instanceof User)) {
+            return false;
+        }
+        
+        User c = (User) o;
+        return idPerson == c.idPerson && 
+        	   firstName.equals(c.firstName) &&
+        	   lastName.equals(c.lastName) &&
+        	   birdDDAte.equals(c.birdDDAte) && 
+        	   email.equals(c.email) &&
+        	   password.equals(c.password) &&
+        	   username.equals(c.username) &&
+        	   money == c.money &&
+        	   idUser == c.idUser;
+
+
+	}
+	
 	public User(int idPerson, String fN, String lN, String birdD, int idUser_, String email_, String password_, String username_) {
 		super(idPerson, fN, lN, birdD);
+		idUser = idUser_;
+		email = email_;
+		password = password_;
+		username = username_;
+	}
+	
+	public User(int idPerson, String fN, String lN, String birdD, double money, int idUser_, String email_, String password_, String username_) {
+		super(idPerson, fN, lN, birdD, money);
 		idUser = idUser_;
 		email = email_;
 		password = password_;
