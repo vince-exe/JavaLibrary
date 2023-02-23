@@ -46,17 +46,44 @@ public class Database {
 		}
 	}
 	
-	public static int getNOrders(int usrId) {
-		PreparedStatement stmt;
+	public static int isAnAdmin(int usrId) {
 		try {
-			stmt = conn.prepareStatement("SELECT COUNT(*) FROM orders WHERE orders.userId = ?;");
+			PreparedStatement stmt = conn.prepareStatement("SELECT id FROM admins WHERE admins.userId = ?");
+			stmt.setInt(1, usrId);
+			
+			return (stmt.executeQuery().next()) ? 1 : 0;
+			
+		} 
+		catch (SQLException e) {
+			return -1;
+		}	
+	}
+	
+	public static boolean insertAdmin(int usrId) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO admins(userId) VALUES (?);");
+			stmt.setInt(1, usrId);
+			
+			return (stmt.executeUpdate() < 0) ? false : true;
+			
+		} 
+		catch (SQLException e) {
+			return false;
+		}	
+		
+	}
+	
+	public static int getNOrders(int usrId) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM orders WHERE orders.userId = ?;");
 			stmt.setInt(1, usrId);
 			
 			ResultSet res = stmt.executeQuery();
 			res.next();
 			return res.getInt(1);
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}	

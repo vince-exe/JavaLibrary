@@ -165,7 +165,7 @@ public class ViewCustomersDialog extends JDialog {
 		btnUpdate.setContentAreaFilled(false);
 		btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnUpdate.setBackground(new Color(145, 74, 23));
-		btnUpdate.setBounds(217, 266, 129, 47);
+		btnUpdate.setBounds(295, 266, 97, 47);
 		getContentPane().add(btnUpdate);
 		
 		JButton btnRemove = new JButton("Remove");
@@ -222,7 +222,7 @@ public class ViewCustomersDialog extends JDialog {
 		btnRemove.setContentAreaFilled(false);
 		btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnRemove.setBackground(new Color(145, 74, 23));
-		btnRemove.setBounds(380, 266, 129, 47);
+		btnRemove.setBounds(412, 266, 97, 47);
 		getContentPane().add(btnRemove);
 		
 		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
@@ -292,7 +292,7 @@ public class ViewCustomersDialog extends JDialog {
 	    table.setDefaultEditor(col_class, null);  
 	    getContentPane().add(scrollPane);
 	    
-	    JButton moreInfoBtn = new JButton("More Info");
+	    JButton moreInfoBtn = new JButton("More");
 	    moreInfoBtn.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseEntered(MouseEvent e) {
@@ -329,8 +329,69 @@ public class ViewCustomersDialog extends JDialog {
 	    moreInfoBtn.setContentAreaFilled(false);
 	    moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 	    moreInfoBtn.setBackground(new Color(145, 74, 23));
-	    moreInfoBtn.setBounds(47, 266, 129, 47);
+	    moreInfoBtn.setBounds(176, 266, 97, 47);
 	    getContentPane().add(moreInfoBtn);
+	    
+	    JButton makeAdmin = new JButton("Make Admin");
+	    makeAdmin.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				if(emailUsr.equals(AdminWindow.getAdmin().getEmail())) {
+					DialogsHandler.generalWarning(null, "Invalid Customer", "You can't promote yourself");
+					return;
+				}
+				
+				int resp = DialogsHandler.YesNoDialog(null, "Confirm Box", "Are you sure that you want to promote the user \"" + emailUsr + "\"");
+				if(resp != 0) {
+					return;
+				}
+				
+				int usrId = getUserId(emailUsr);
+				if(usrId == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to promote the customer");
+					return;
+				}
+				
+				int isAdmin = database.Database.isAnAdmin(usrId);
+				if(isAdmin == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to promote the customer");
+					return;
+				}
+				if(isAdmin == 1) {
+					DialogsHandler.SQLErr(null, "The user \"" + emailUsr + "\" is already an admin");
+					return;
+				}
+				
+				if(database.Database.insertAdmin(usrId)) {
+					DialogsHandler.infoSuccess(null, "Promotion Success", "Successfully promoted \"" + emailUsr + "\" to admin");
+				}
+				else {
+					DialogsHandler.SQLErr(null, "The application failed to promote the customer");
+				}
+	    	}
+	    	@Override
+	    	public void mouseEntered(MouseEvent e) {
+	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+	    	}
+	    	@Override
+	    	public void mouseExited(MouseEvent e) {
+	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+	    	}
+	    });
+	    makeAdmin.setForeground(new Color(222, 222, 222));
+	    makeAdmin.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+	    makeAdmin.setFocusPainted(false);
+	    makeAdmin.setContentAreaFilled(false);
+	    makeAdmin.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+	    makeAdmin.setBackground(new Color(145, 74, 23));
+	    makeAdmin.setBounds(15, 266, 140, 47);
+	    getContentPane().add(makeAdmin);
 	    
 	    if(!fetchUsers(table)) {
 	    	DialogsHandler.SQLErr(null, "The application failed to read the customers.");
