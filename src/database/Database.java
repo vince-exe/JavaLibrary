@@ -46,6 +46,22 @@ public class Database {
 		}
 	}
 	
+	public static int getNOrders(int usrId) {
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement("SELECT COUNT(*) FROM orders WHERE orders.userId = ?;");
+			stmt.setInt(1, usrId);
+			
+			ResultSet res = stmt.executeQuery();
+			res.next();
+			return res.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}	
+	}
+	
 	public static boolean existBook(String isbn, String title) throws SQLException {
 		PreparedStatement bookStmt = conn.prepareStatement("SELECT id FROM books WHERE books.ISBN = ? OR books.title = ?;");
 		bookStmt.setString(1, isbn);
@@ -160,12 +176,13 @@ public class Database {
 	public static ArrayList<User> getUsers() {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT "
+					+ "users.id,"
 					+ "first_name,"
 					+ "last_name,"
 					+ "birth,"
-					+ "username,"
 					+ "email,"
-					+ "psw"
+					+ "psw,"
+					+ "username"
 					+ " FROM USERS JOIN persons ON users.personId = persons.id");
 			
 			ArrayList<User> usersList = new ArrayList<User>();
@@ -173,12 +190,13 @@ public class Database {
 			
 			while(result.next()) {
 				usersList.add(new User(
-						result.getString(1),
+						result.getInt(1),
 						result.getString(2),
 						result.getString(3),
+						result.getString(4),
 						result.getString(5),
 						result.getString(6),
-						result.getString(4)));
+						result.getString(7)));
 			}
 			return usersList;
 			

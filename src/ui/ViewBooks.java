@@ -18,7 +18,6 @@ import javax.swing.table.TableModel;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -32,8 +31,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 

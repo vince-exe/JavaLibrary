@@ -27,6 +27,15 @@ CREATE TABLE admins (
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 
+CREATE TABLE orders (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    bookId INT NOT NULL,
+    userId INT NOT NULL,
+    
+    FOREIGN KEY (bookId) REFERENCES books(id),
+    FOREIGN KEY (userId) REFERENCES users(id)
+);
+
 CREATE TABLE books (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     price DOUBLE NOT NULL,

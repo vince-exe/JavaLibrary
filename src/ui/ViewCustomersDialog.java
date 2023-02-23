@@ -1,10 +1,7 @@
 package ui;
 
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
@@ -13,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.JScrollPane;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -32,8 +28,6 @@ import javax.swing.ListSelectionModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
-
 import javax.swing.ScrollPaneConstants;
 
 public class ViewCustomersDialog extends JDialog {
@@ -42,6 +36,9 @@ public class ViewCustomersDialog extends JDialog {
 	private String columnsName[] = {"First Name", "Last Name", "BirthDate", "Username", "Email", "Password"};
 	private JTable table;
 	private TableColumnModel columnModel;
+	
+	private static ArrayList<database.User> updatedArray;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -56,11 +53,23 @@ public class ViewCustomersDialog extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static int getUserId(String email) {
+		for(database.User user : updatedArray) {
+			if(user.getEmail().equals(email)) {
+				return user.getIdUser();
+			}
+		}
+		
+		return -1;
+	}
+	
 	public static boolean fetchUsers(JTable table) {
 		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		
 		ArrayList<database.User> array = database.Database.getUsers();
+		updatedArray = array;
+		
 		if(array == null) {
 			return false;
 		}
@@ -292,6 +301,26 @@ public class ViewCustomersDialog extends JDialog {
 	    	@Override
 	    	public void mouseExited(MouseEvent e) {
 	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+	    	}
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				int usrId = getUserId(emailUsr);
+				int nOrders = database.Database.getNOrders(usrId);
+				
+				database.User usr = database.Database.getUser(emailUsr);
+				
+				if(usr == null || usrId == -1 || nOrders == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to update the customer");
+					return;
+				}
+				
+				MoreInfoDialog.startWindow(null, usr, nOrders);
 	    	}
 	    });
 	    moreInfoBtn.setForeground(new Color(222, 222, 222));

@@ -7,6 +7,8 @@ public abstract class Person {
 	
 	protected double money;
 	
+	public Person() {}
+	
 	public Person(int id_, String fN, String lN, String birdD) {
 		idPerson = id_;
 		firstName = fN;

@@ -52,8 +52,9 @@ public class User extends Person {
 		username = username_;
 	}
 	
-	public User(String fN, String lN, String birdD, String email_, String password_, String username_) {
+	public User(int userId, String fN, String lN, String birdD, String email_, String password_, String username_) {
 		super(fN, lN, birdD);
+		idUser = userId;
 		email = email_;
 		password = password_;
 		username = username_;
