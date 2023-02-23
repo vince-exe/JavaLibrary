@@ -205,6 +205,41 @@ public class Database {
 		}
 	}
 	
+	public static ArrayList<Admin> getAdmins() {
+		try {
+			PreparedStatement adminStmt = conn.prepareStatement("SELECT "
+					+ "users.id,"
+					+ "admins.id,"
+					+ "first_name,"
+					+ "last_name,"
+					+ "birth,"
+					+ "email,"
+					+ "psw,"
+					+ "username"
+					+ " FROM ADMINS JOIN users ON userId = users.id JOIN persons ON users.personId = persons.id");
+			
+			ArrayList<Admin> adminsList = new ArrayList<Admin>();
+			ResultSet result = adminStmt.executeQuery();
+			
+			while(result.next()) {
+				adminsList.add(new Admin(
+						result.getInt(1),
+						result.getInt(2),
+						result.getString(3),
+						result.getString(4),
+						result.getString(5),
+						result.getString(6),
+						result.getString(7),
+						result.getString(8)));
+			}
+			return adminsList;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static int[] isLogged(String email, String password) throws SQLException {
 		PreparedStatement loginStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ? AND users.psw = ?;");
 		

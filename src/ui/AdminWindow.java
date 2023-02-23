@@ -221,6 +221,10 @@ public class AdminWindow {
 			public void mouseExited(MouseEvent e) {
 				viewAdminsBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ViewAdminDialog.startWindow(null);
+			}
 		});
 		viewAdminsBtn.setForeground(new Color(222, 222, 222));
 		viewAdminsBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));

@@ -29,6 +29,8 @@ public class User extends Person {
 
 	}
 	
+	public User() {};
+	
 	public User(int idPerson, String fN, String lN, String birdD, int idUser_, String email_, String password_, String username_) {
 		super(idPerson, fN, lN, birdD);
 		idUser = idUser_;
@@ -54,6 +56,14 @@ public class User extends Person {
 	
 	public User(int userId, String fN, String lN, String birdD, String email_, String password_, String username_) {
 		super(fN, lN, birdD);
+		idUser = userId;
+		email = email_;
+		password = password_;
+		username = username_;
+	}
+	
+	public User(int userId, String fN, String lN, String birdD, String email_, String password_, String username_, double money) {
+		super(fN, lN, birdD, money);
 		idUser = userId;
 		email = email_;
 		password = password_;

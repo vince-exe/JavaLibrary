@@ -1,14 +1,11 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
-import java.awt.Dialog.ModalityType;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,8 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import database.User;
-
-import javax.swing.JPasswordField;
 
 public class MoreInfoDialog extends JDialog {
 
@@ -31,6 +26,7 @@ public class MoreInfoDialog extends JDialog {
 	
 	private static User user;
 	private static int nOrders;
+	private JLabel lblNewLabel;
 	
 	/**
 	 * Launch the application.
@@ -136,5 +132,13 @@ public class MoreInfoDialog extends JDialog {
 		ordersBox.setBackground(new Color(145, 74, 23));
 		ordersBox.setBounds(58, 366, 288, 44);
 		contentPanel.add(ordersBox);
+		
+		lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
+		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setForeground(new Color(186, 186, 186));
+		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		lblNewLabel.setBounds(29, 431, 348, 19);
+		contentPanel.add(lblNewLabel);
 	}
 }
