@@ -35,9 +35,7 @@ public class ViewCustomersDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private String columnsName[] = {"First Name", "Last Name", "BirthDate", "Username", "Email", "Password"};
 	private JTable table;
-	private TableColumnModel columnModel;
-	
-	private static ArrayList<database.User> updatedArray;
+	private TableColumnModel columnModel;	
 	
 	/**
 	 * Launch the application.
@@ -54,21 +52,10 @@ public class ViewCustomersDialog extends JDialog {
 		}
 	}
 	
-	public static int getUserId(String email) {
-		for(database.User user : updatedArray) {
-			if(user.getEmail().equals(email)) {
-				return user.getIdUser();
-			}
-		}
-		
-		return -1;
-	}
-	
 	public static boolean fetchUsers(JTable table) {
 		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		
 		ArrayList<database.User> array = database.Database.getUsers();
-		updatedArray = array;
 		
 		if(array == null) {
 			return false;
@@ -310,7 +297,7 @@ public class ViewCustomersDialog extends JDialog {
 				}
 				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
 				
-				int usrId = getUserId(emailUsr);
+				int usrId = database.Database.getUserID(emailUsr);
 				int nOrders = database.Database.getNOrders(usrId);
 				
 				database.User usr = database.Database.getUser(emailUsr);
@@ -352,7 +339,7 @@ public class ViewCustomersDialog extends JDialog {
 					return;
 				}
 				
-				int usrId = getUserId(emailUsr);
+				int usrId = database.Database.getUserID(emailUsr);
 				if(usrId == -1) {
 					DialogsHandler.SQLErr(null, "The application failed to promote the customer");
 					return;

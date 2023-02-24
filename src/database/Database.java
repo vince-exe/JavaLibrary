@@ -367,7 +367,24 @@ public class Database {
 			}
 			return true;
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
+			return false;
+		}
+	}
+	
+	public static boolean deleteAdmin(int id) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM admins WHERE admins.userId = ?");
+			stmt.setInt(1, id);
+			
+			if(stmt.executeUpdate() < 0) {
+				return false;
+			}
+			return true;
+			
+		} 
+		catch (SQLException e) {
 			return false;
 		}
 	}

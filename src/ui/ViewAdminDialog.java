@@ -208,6 +208,42 @@ public class ViewAdminDialog extends JDialog {
 	    	public void mouseExited(MouseEvent e) {
 	    		delBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 	    	}
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				if(emailUsr.equals(AdminWindow.getAdmin().getEmail())) {
+					DialogsHandler.generalWarning(null, "Invalid Customer", "You can't delete yourself");
+					return;
+				}
+				
+				int resp = DialogsHandler.YesNoDialog(null, "Confirm Box", "Are you sure that you want to remove the user \"" + emailUsr + "\"");
+				if(resp != 0) {
+					return;
+				}
+				
+				int usrId = database.Database.getUserID(emailUsr);
+				if(usrId == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to remove the admin");
+					return;
+				}
+				
+				if(!database.Database.deleteAdmin(usrId)) {
+					DialogsHandler.SQLErr(null, "The application failed to remove the admin");
+					return;
+				}
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				tableModel.setRowCount(0);
+
+				if(!fetchAdmins(table)) {
+			    	DialogsHandler.SQLErr(null, "The application failed to read the customers.");
+			    	dispose();
+				}
+	    	}
 	    });
 	    delBtn.setForeground(new Color(222, 222, 222));
 	    delBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
