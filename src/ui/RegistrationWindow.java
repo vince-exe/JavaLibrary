@@ -163,6 +163,14 @@ public class RegistrationWindow  {
 					DialogsHandler.registrationErr(frmRegistration);
 				}
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				registrationBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				registrationBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
 		});
 		
 		registrationBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));

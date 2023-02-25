@@ -56,4 +56,24 @@ public abstract class Person {
 	public double getMoney() {
 		return money;
 	}
+	
+	public void setIdPerson(int idPerson) {
+		this.idPerson = idPerson;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setBirdDDAte(String birdDDAte) {
+		this.birdDDAte = birdDDAte;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
 }

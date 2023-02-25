@@ -267,6 +267,32 @@ public class Database {
 		}
 	}
 	
+	public static Admin getAdmin(int userId) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT "
+					+ "users.id,"
+					+ "admins.id,"
+					+ "first_name,"
+					+ "last_name,"
+					+ "birth,"
+					+ "email,"
+					+ "psw,"
+					+ "username"
+					+ " FROM admins JOIN users ON admins.userId = users.id JOIN persons ON users.personId = persons.id WHERE admins.userId = ?");
+			stmt.setInt(1, userId);
+			
+			ResultSet result = stmt.executeQuery();
+			if(!result.next()) { 
+				return null;
+			}
+			
+			return new Admin(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5).replace('-', '/'), result.getString(6), result.getString(7), result.getString(8));
+		} 
+		catch (SQLException e) {
+			return null;
+		}
+	}
+	
 	public static int[] isLogged(String email, String password) throws SQLException {
 		PreparedStatement loginStmt = conn.prepareStatement("SELECT users.id FROM users WHERE users.email = ? AND users.psw = ?;");
 		

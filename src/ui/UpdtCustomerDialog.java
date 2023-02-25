@@ -231,16 +231,14 @@ public class UpdtCustomerDialog extends JDialog {
 					return;
 				}
 				
-				if(!user.getEmail().equals(userToUpdate.getEmail())) {
-					if(CredentialsChecker.handleEmailAlreadyExist(user.getEmail(), null) == -1) {
-						return;
-					}
+				if(!user.getEmail().equals(userToUpdate.getEmail()) && CredentialsChecker.handleEmailAlreadyExist(user.getEmail(), null) == -1) {
+					DialogsHandler.generalWarning(null, "Invalid Email", "There is already an account with this email");
+					return;
 				}
 				
-				if(!user.getUsername().equals(userToUpdate.getUsername())) {
-					if(!CredentialsChecker.usernameAlreadyExist(user.getUsername(), null)) {
-						return;
-					}
+				if(!user.getUsername().equals(userToUpdate.getUsername()) && !CredentialsChecker.usernameAlreadyExist(user.getUsername(), null)) {
+					DialogsHandler.generalWarning(null, "Invalid Username", "There is already an account with this username");
+					return;
 				}
 				
 				if(!database.Database.updateUsr(user)) {

@@ -1,9 +1,9 @@
 package database;
 
 public class User extends Person {
-	private int idUser;
+	protected int idUser;
 	
-	private String email, password, username;
+	protected String email, password, username;
 	
 	@Override
 	public boolean equals(Object o) {
@@ -37,6 +37,7 @@ public class User extends Person {
 		email = email_;
 		password = password_;
 		username = username_;
+		money = 0;
 	}
 	
 	public User(int idPerson, String fN, String lN, String birdD, double money, int idUser_, String email_, String password_, String username_) {
@@ -60,6 +61,7 @@ public class User extends Person {
 		email = email_;
 		password = password_;
 		username = username_;
+		money = 0;
 	}
 	
 	public User(int userId, String fN, String lN, String birdD, String email_, String password_, String username_, double money) {
@@ -84,5 +86,21 @@ public class User extends Person {
 	
 	public int getIdUser() {
 		return idUser;
+	}
+	
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

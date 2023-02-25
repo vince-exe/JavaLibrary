@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import database.Admin;
 import uiUtils.DialogsHandler;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -217,7 +218,7 @@ public class ViewAdminDialog extends JDialog {
 				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
 				
 				if(emailUsr.equals(AdminWindow.getAdmin().getEmail())) {
-					DialogsHandler.generalWarning(null, "Invalid Customer", "You can't delete yourself");
+					DialogsHandler.generalWarning(null, "Invalid Delete", "You can't delete yourself");
 					return;
 				}
 				
@@ -258,6 +259,40 @@ public class ViewAdminDialog extends JDialog {
 	    updateBtn.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				if(emailUsr.equals(AdminWindow.getAdmin().getEmail())) {
+					DialogsHandler.generalWarning(null, "Invalid Update", "You can't update yourself");
+					return;
+				}
+				
+				int usrId = database.Database.getUserID(emailUsr);
+				if(usrId == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to open the update window");
+					return;
+				}
+				
+				Admin admin = database.Database.getAdmin(usrId);
+				if(admin == null) {
+			    	DialogsHandler.SQLErr(null, "The application failed to update.");
+			    	return;
+				}
+				
+				UpdtAdminDialog.startWindow(null, admin);
+				if(UpdtAdminDialog.successUpdate) {
+					DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+					tableModel.setRowCount(0);
+
+					if(!fetchAdmins(table)) {
+				    	DialogsHandler.SQLErr(null, "The application failed to read the admins.");
+				    	dispose();
+					}
+				}
 	    	}
 	    	@Override
 	    	public void mouseEntered(MouseEvent e) {
