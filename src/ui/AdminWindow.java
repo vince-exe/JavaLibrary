@@ -255,8 +255,7 @@ public class AdminWindow {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frmAdmin.setEnabled(false);
-				ui.InfoWindow.startWindow(null, admin);
+				InfoDialog.startWindow(null, admin);
 			}
 		});
 

@@ -193,7 +193,7 @@ public class LoginWindow implements FocusListener, MouseListener {
 					return;
 				}
 				else {
-					System.out.print("\nWINDOW CUSTOMER");
+					CustomerDialogMenu.startWindow(null, usr);
 					return;
 				}
 				

@@ -1,7 +1,6 @@
 package ui;
 
-import java.awt.EventQueue;
-
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Color;
@@ -13,9 +12,8 @@ import javax.swing.border.LineBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class InfoWindow {
+public class InfoDialog extends JDialog {
 
-	private JFrame frmInfo;
 	private JTextField firstNameBox;
 	private JTextField lastNameBox;
 	private JTextField usernameBox;
@@ -23,53 +21,43 @@ public class InfoWindow {
 	private JTextField passwordBox;
 	
 	private static database.User user;
+	private JTextField moneyBox;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void startWindow(String[] args, database.User user_) {
 		user = user_;
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InfoWindow window = new InfoWindow();
-					window.frmInfo.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public InfoWindow() {
-		initialize();
+		try {
+			InfoDialog dialog = new InfoDialog();
+			dialog.setModalityType(DEFAULT_MODALITY_TYPE);
+			dialog.setVisible(true);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		frmInfo = new JFrame();
-		frmInfo.setResizable(false);
-		frmInfo.addWindowListener(new WindowAdapter() {
+	public InfoDialog() {
+		setResizable(false);
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				AdminWindow.enableWindow();
+				
 			}
 		});
-		frmInfo.getContentPane().setBackground(new Color(105, 50, 12));
-		frmInfo.getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(105, 50, 12));
+		getContentPane().setLayout(null);
 		
 		JLabel lblInfo = new JLabel("Info");
 		lblInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInfo.setForeground(new Color(222, 222, 222));
 		lblInfo.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		lblInfo.setBounds(137, 11, 104, 51);
-		frmInfo.getContentPane().add(lblInfo);
+		getContentPane().add(lblInfo);
 		
 		firstNameBox = new JTextField();
 		firstNameBox.setEditable(false);
@@ -82,7 +70,7 @@ public class InfoWindow {
 		firstNameBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		firstNameBox.setBackground(new Color(145, 74, 23));
 		firstNameBox.setBounds(10, 82, 165, 42);
-		frmInfo.getContentPane().add(firstNameBox);
+		getContentPane().add(firstNameBox);
 		
 		lastNameBox = new JTextField();
 		lastNameBox.setEditable(false);
@@ -94,7 +82,7 @@ public class InfoWindow {
 		lastNameBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		lastNameBox.setBackground(new Color(145, 74, 23));
 		lastNameBox.setBounds(208, 82, 165, 42);
-		frmInfo.getContentPane().add(lastNameBox);
+		getContentPane().add(lastNameBox);
 		
 		usernameBox = new JTextField();
 		usernameBox.setEditable(false);
@@ -106,7 +94,7 @@ public class InfoWindow {
 		usernameBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		usernameBox.setBackground(new Color(145, 74, 23));
 		usernameBox.setBounds(10, 142, 165, 42);
-		frmInfo.getContentPane().add(usernameBox);
+		getContentPane().add(usernameBox);
 		
 		JTextField dateBox = new JTextField("");
 		dateBox.setEditable(false);
@@ -118,7 +106,7 @@ public class InfoWindow {
 		dateBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		dateBox.setBackground(new Color(145, 74, 23));
 		dateBox.setBounds(208, 142, 165, 42);
-		frmInfo.getContentPane().add(dateBox);
+		getContentPane().add(dateBox);
 		
 		emailBox = new JTextField();
 		emailBox.setEditable(false);
@@ -129,16 +117,16 @@ public class InfoWindow {
 		emailBox.setCaretColor(new Color(222, 222, 222));
 		emailBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		emailBox.setBackground(new Color(145, 74, 23));
-		emailBox.setBounds(48, 206, 288, 44);
-		frmInfo.getContentPane().add(emailBox);
+		emailBox.setBounds(48, 260, 288, 44);
+		getContentPane().add(emailBox);
 		
 		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(186, 186, 186));
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		lblNewLabel.setBounds(26, 337, 327, 19);
-		frmInfo.getContentPane().add(lblNewLabel);
+		lblNewLabel.setBounds(26, 370, 327, 19);
+		getContentPane().add(lblNewLabel);
 		
 		passwordBox = new JTextField();
 		passwordBox.setHorizontalAlignment(SwingConstants.CENTER);
@@ -149,12 +137,24 @@ public class InfoWindow {
 		passwordBox.setCaretColor(new Color(222, 222, 222));
 		passwordBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		passwordBox.setBackground(new Color(145, 74, 23));
-		passwordBox.setBounds(48, 272, 288, 44);
-		frmInfo.getContentPane().add(passwordBox);
-		frmInfo.setTitle("Info");
-		frmInfo.setIconImage(Toolkit.getDefaultToolkit().getImage(InfoWindow.class.getResource("/ui/resources/icon.png")));
-		frmInfo.setBounds(100, 100, 399, 406);
-		frmInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		passwordBox.setBounds(48, 315, 288, 44);
+		getContentPane().add(passwordBox);
+		setTitle("Info");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InfoDialog.class.getResource("/ui/resources/icon.png")));
+		setBounds(100, 100, 399, 439);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		moneyBox = new JTextField((String) null);
+		moneyBox.setHorizontalAlignment(SwingConstants.CENTER);
+		moneyBox.setForeground(new Color(222, 222, 222));
+		moneyBox.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
+		moneyBox.setEditable(false);
+		moneyBox.setColumns(10);
+		moneyBox.setCaretColor(new Color(222, 222, 222));
+		moneyBox.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+		moneyBox.setBackground(new Color(145, 74, 23));
+		moneyBox.setBounds(74, 203, 230, 42);
+		getContentPane().add(moneyBox);
 		
 		firstNameBox.setText(user.getFirstName());
 		lastNameBox.setText(user.getLastName());
@@ -162,5 +162,6 @@ public class InfoWindow {
 		dateBox.setText(user.getBDay());
 		emailBox.setText(user.getEmail());
 		passwordBox.setText(user.getPassword());
+		moneyBox.setText(Double.toString(user.getMoney()));
 	}
 }

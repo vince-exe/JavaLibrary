@@ -127,7 +127,7 @@ public class ViewBooks {
 		table.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		table.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		table.setBackground(new Color(145, 74, 23));
-		table.setBounds(20, 90, 640, 237);
+		table.setBounds(15, 11, 640, 237);
 		table.getTableHeader().setBackground(new Color(145, 74, 23));
 		table.getTableHeader().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		table.getTableHeader().setForeground(new Color(222, 222, 222));
@@ -142,7 +142,7 @@ public class ViewBooks {
 		scrollPane.getViewport().getView().setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		scrollPane.setBackground(new Color(105, 50, 12));
 		scrollPane.getVerticalScrollBar().setBackground(new Color(145, 74, 23));
-		scrollPane.setBounds(15, 11, 640, 237);
+		scrollPane.setBounds(15, 76, 640, 237);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setViewportView(table);
 		frmBooksMenu.getContentPane().add(scrollPane);
@@ -233,7 +233,7 @@ public class ViewBooks {
 		btnUpdate.setContentAreaFilled(false);
 		btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnUpdate.setBackground(new Color(145, 74, 23));
-		btnUpdate.setBounds(172, 266, 129, 47);
+		btnUpdate.setBounds(36, 11, 129, 47);
 		frmBooksMenu.getContentPane().add(btnUpdate);
 		
 		JButton btnRemove = new JButton("Remove");
@@ -279,7 +279,7 @@ public class ViewBooks {
 		btnRemove.setContentAreaFilled(false);
 		btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnRemove.setBackground(new Color(145, 74, 23));
-		btnRemove.setBounds(358, 266, 129, 47);
+		btnRemove.setBounds(230, 11, 129, 47);
 		frmBooksMenu.getContentPane().add(btnRemove);
 		
 		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
@@ -297,7 +297,7 @@ public class ViewBooks {
 		dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dateLabel.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 19));
 		dateLabel.setForeground(new Color(222, 222, 222));
-		dateLabel.setBounds(524, 266, 131, 44);
+		dateLabel.setBounds(512, 11, 131, 44);
 		frmBooksMenu.getContentPane().add(dateLabel);
 	}
 }
