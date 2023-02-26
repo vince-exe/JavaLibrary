@@ -20,6 +20,20 @@ public class Database {
 		conn = DriverManager.getConnection(dbUrl, username, password);
 	}
 	
+	public static boolean updateMoney(int personId, double money) {
+		try {
+			PreparedStatement updtStmt = conn.prepareStatement("UPDATE persons SET persons.money = ? WHERE persons.id = ?");
+			
+			updtStmt.setDouble(1, money);
+			updtStmt.setInt(2, personId);
+			
+			return (updtStmt.executeUpdate() < 0) ? false : true;
+		} 
+		catch (SQLException e) {
+			return false;
+		}
+	}
+	
 	public static boolean updateBook(int id, Book book) {
 		try {
 			PreparedStatement updtStmt = conn.prepareStatement("UPDATE books SET "

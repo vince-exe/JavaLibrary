@@ -178,6 +178,14 @@ public class CustomerDialogMenu extends JDialog {
 			public void mouseExited(MouseEvent e) {
 				addMoneyBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AddMoneyDialog.startWindow(null, currentUser);
+				
+				if(AddMoneyDialog.success) {
+					currentUser.setMoney(AddMoneyDialog.moneyAdded);
+				}
+			}
 		});
 		addMoneyBtn.setForeground(new Color(222, 222, 222));
 		addMoneyBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
