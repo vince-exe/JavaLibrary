@@ -67,6 +67,7 @@ public class BuyBookDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public BuyBookDialog() {
+		setResizable(false);
 		setTitle("Buy Book");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(BuyBookDialog.class.getResource("/ui/resources/icon.png")));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -195,6 +196,7 @@ public class BuyBookDialog extends JDialog {
 				}
 			
 				DialogsHandler.infoSuccess(null, "Success", "Successfully bought the book");
+				dispose();
 			}
 		});
 		btnBuyBook.setForeground(new Color(222, 222, 222));

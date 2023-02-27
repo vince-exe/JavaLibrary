@@ -188,7 +188,7 @@ public class CustomerDialogMenu extends JDialog {
 		buyBtn.setContentAreaFilled(false);
 		buyBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		buyBtn.setBackground(new Color(145, 74, 23));
-		buyBtn.setBounds(20, 335, 131, 50);
+		buyBtn.setBounds(40, 335, 131, 50);
 		getContentPane().add(buyBtn);
 		
 		JButton addMoneyBtn = new JButton("Add Money");
@@ -216,7 +216,7 @@ public class CustomerDialogMenu extends JDialog {
 		addMoneyBtn.setContentAreaFilled(false);
 		addMoneyBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		addMoneyBtn.setBackground(new Color(145, 74, 23));
-		addMoneyBtn.setBounds(189, 335, 131, 50);
+		addMoneyBtn.setBounds(269, 335, 131, 50);
 		getContentPane().add(addMoneyBtn);
 		
 		JButton viewOrdersBtn = new JButton("View Orders");
@@ -236,28 +236,8 @@ public class CustomerDialogMenu extends JDialog {
 		viewOrdersBtn.setContentAreaFilled(false);
 		viewOrdersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		viewOrdersBtn.setBackground(new Color(145, 74, 23));
-		viewOrdersBtn.setBounds(355, 335, 131, 50);
+		viewOrdersBtn.setBounds(505, 335, 131, 50);
 		getContentPane().add(viewOrdersBtn);
-		
-		JButton logoutBtn = new JButton("Logout");
-		logoutBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				logoutBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				logoutBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-			}
-		});
-		logoutBtn.setForeground(new Color(222, 222, 222));
-		logoutBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-		logoutBtn.setFocusPainted(false);
-		logoutBtn.setContentAreaFilled(false);
-		logoutBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
-		logoutBtn.setBackground(new Color(145, 74, 23));
-		logoutBtn.setBounds(524, 335, 136, 50);
-		getContentPane().add(logoutBtn);
 		
 		table.getTableHeader().setPreferredSize(new Dimension(scrollPane.getWidth(), 38));
 		
