@@ -26,7 +26,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
+import database.Book;
 import database.User;
 import uiUtils.DialogsHandler;
 
@@ -58,7 +60,7 @@ public class CustomerDialogMenu extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -157,6 +159,27 @@ public class CustomerDialogMenu extends JDialog {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				buyBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TableModel model = table.getModel();
+				
+				int selectedRow = table.getSelectedRow();
+				if(selectedRow == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				
+				Book book = new Book(
+						Integer.parseInt(model.getValueAt(selectedRow, 0).toString()),
+						Double.parseDouble(model.getValueAt(selectedRow, 1).toString()),
+						model.getValueAt(selectedRow, 2).toString(),
+						model.getValueAt(selectedRow, 3).toString(),
+						model.getValueAt(selectedRow, 4).toString(),
+						model.getValueAt(selectedRow, 5).toString()
+				);
+				
+				BuyBookDialog.startWindow(null, book, currentUser);
 			}
 		});
 		buyBtn.setForeground(new Color(222, 222, 222));

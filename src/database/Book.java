@@ -28,6 +28,8 @@ public class Book {
         	   authorLName.equals(c.authorLName);
 	}
 	
+	public Book() {};
+	
 	public Book(int id_, Double price_, String title_, String ISBN_, String aFN_, String aLN_) {
 		id = id_;
 		price = price_;

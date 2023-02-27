@@ -1,6 +1,9 @@
 package database;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Database {
@@ -18,6 +21,22 @@ public class Database {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		
 		conn = DriverManager.getConnection(dbUrl, username, password);
+	}
+	
+	public static boolean createOrders(Orders order) {	
+		try {
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO orders(quantity, bookId, userId, date_) VALUES (?, ?, ?, ?);");
+			stmt.setInt(1, order.getQuantity());
+			stmt.setInt(2, order.getBookId());
+			stmt.setInt(3, order.getUserId());
+			stmt.setString(4, order.getDate());
+			
+			return (stmt.executeUpdate() < 0) ? false : true;
+		} 
+		catch (SQLException e) {
+			System.out.print("\nExcpetion");
+			return false;
+		}
 	}
 	
 	public static boolean updateMoney(int personId, double money) {
