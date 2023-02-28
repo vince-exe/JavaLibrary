@@ -229,6 +229,10 @@ public class CustomerDialogMenu extends JDialog {
 			public void mouseExited(MouseEvent e) {
 				viewOrdersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ViewOrdersDialog.startWindow(null, currentUser);
+			}
 		});
 		viewOrdersBtn.setForeground(new Color(222, 222, 222));
 		viewOrdersBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));

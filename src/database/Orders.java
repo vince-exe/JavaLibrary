@@ -19,6 +19,17 @@ public class Orders {
 		this.date = date;
 	}
 	
+	public Orders(int id, String title, int qtnt, double price, String isbn) {
+		user = new User();
+		book = new Book();
+		
+		this.id = id;
+		this.book.setTitle(title);
+		this.quantity = qtnt;
+		this.book.setPrice(price);
+		this.book.setISBN(isbn);
+	}
+	
 	public int getId() {
 		return id;
 	}

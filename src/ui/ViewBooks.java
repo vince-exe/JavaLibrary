@@ -261,7 +261,7 @@ public class ViewBooks {
 				}
 				
 				if(!database.Database.deleteBook(value)) {
-					DialogsHandler.SQLErr(frmBooksMenu, "The database failed to delete the record.");
+					DialogsHandler.SQLErr(frmBooksMenu, "The application failed to delete the record.");
 					return;
 				}
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();

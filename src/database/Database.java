@@ -541,6 +541,48 @@ public class Database {
 		}
 	}
 	
+	public static ArrayList<Orders> getOrders(int userId) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT"
+					+ " orders.id,"
+					+ " title,"
+					+ " quantity,"
+					+ " price,"
+					+ " ISBN"
+					+ " FROM orders JOIN books ON books.id = bookId JOIN users ON users.id = userId WHERE users.id = ?;");
+			stmt.setInt(1, userId);
+			
+			ResultSet result = stmt.executeQuery();
+			ArrayList<Orders> array = new ArrayList<Orders>();
+			
+			while(result.next()) {
+				array.add(new Orders(
+						result.getInt(1),
+						result.getString(2),
+						result.getInt(3),
+						result.getDouble(4),
+						result.getString(5)));
+			}
+			
+			return array;
+		} 
+		catch (SQLException e) {
+			return null;
+		}
+	}
+	
+	public static boolean deleteOrder(int orderId) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM orders WHERE orders.id = ?");
+			stmt.setInt(1, orderId);
+			
+			return (stmt.executeUpdate() < 0) ? false : true;
+		} 
+		catch (SQLException e) {
+			return false;
+		}
+	}
+	
 	public static boolean deleteBook(int id) {
 		try {
 			PreparedStatement delStmt = conn.prepareStatement("DELETE FROM books WHERE books.id = ?;");
