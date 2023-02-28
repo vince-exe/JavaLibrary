@@ -193,6 +193,8 @@ public class LoginWindow implements FocusListener, MouseListener {
 					return;
 				}
 				else {
+					passwordBox.setText("* * * * *");
+					emailBox.setText("email@gmail.com");
 					CustomerDialogMenu.startWindow(null, usr);
 					return;
 				}

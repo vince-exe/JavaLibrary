@@ -231,7 +231,7 @@ public class CustomerDialogMenu extends JDialog {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ViewOrdersDialog.startWindow(null, currentUser);
+				ViewOrdersDialog.startWindow(null, currentUser.getIdUser());
 			}
 		});
 		viewOrdersBtn.setForeground(new Color(222, 222, 222));

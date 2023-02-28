@@ -87,7 +87,7 @@ public class ViewCustomersDialog extends JDialog {
 		setResizable(false);
 		setTitle("Customers Menu");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewCustomersDialog.class.getResource("/ui/resources/icon.png")));
-		setBounds(100, 100, 697, 388);
+		setBounds(100, 100, 697, 437);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 0, 0);
 		contentPanel.setBackground(new Color(105, 50, 12));
@@ -99,7 +99,7 @@ public class ViewCustomersDialog extends JDialog {
 		dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dateLabel.setForeground(new Color(222, 222, 222));
 		dateLabel.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 19));
-		dateLabel.setBounds(524, 266, 131, 44);
+		dateLabel.setBounds(533, 343, 131, 44);
 		getContentPane().add(dateLabel);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -152,7 +152,7 @@ public class ViewCustomersDialog extends JDialog {
 		btnUpdate.setContentAreaFilled(false);
 		btnUpdate.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnUpdate.setBackground(new Color(145, 74, 23));
-		btnUpdate.setBounds(295, 266, 97, 47);
+		btnUpdate.setBounds(363, 292, 97, 47);
 		getContentPane().add(btnUpdate);
 		
 		JButton btnRemove = new JButton("Remove");
@@ -209,7 +209,7 @@ public class ViewCustomersDialog extends JDialog {
 		btnRemove.setContentAreaFilled(false);
 		btnRemove.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 		btnRemove.setBackground(new Color(145, 74, 23));
-		btnRemove.setBounds(412, 266, 97, 47);
+		btnRemove.setBounds(524, 292, 97, 47);
 		getContentPane().add(btnRemove);
 		
 		JLabel lblNewLabel = new JLabel("Copyright © 2023 Vincenzo Caliendo. All rights reserved");
@@ -217,7 +217,7 @@ public class ViewCustomersDialog extends JDialog {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(186, 186, 186));
 		lblNewLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		lblNewLabel.setBounds(158, 324, 348, 19);
+		lblNewLabel.setBounds(175, 368, 348, 19);
 		getContentPane().add(lblNewLabel);
 		
 		table = new JTable();
@@ -287,7 +287,7 @@ public class ViewCustomersDialog extends JDialog {
 	    	}
 	    	@Override
 	    	public void mouseExited(MouseEvent e) {
-	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 	    	}
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
@@ -316,7 +316,7 @@ public class ViewCustomersDialog extends JDialog {
 	    moreInfoBtn.setContentAreaFilled(false);
 	    moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 	    moreInfoBtn.setBackground(new Color(145, 74, 23));
-	    moreInfoBtn.setBounds(176, 266, 97, 47);
+	    moreInfoBtn.setBounds(208, 292, 97, 47);
 	    getContentPane().add(moreInfoBtn);
 	    
 	    JButton makeAdmin = new JButton("Make Admin");
@@ -364,11 +364,11 @@ public class ViewCustomersDialog extends JDialog {
 	    	}
 	    	@Override
 	    	public void mouseEntered(MouseEvent e) {
-	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+	    		makeAdmin.setBorder(new LineBorder(new Color(64, 38, 11), 5));
 	    	}
 	    	@Override
 	    	public void mouseExited(MouseEvent e) {
-	    		moreInfoBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+	    		makeAdmin.setBorder(new LineBorder(new Color(64, 38, 11), 4));
 	    	}
 	    });
 	    makeAdmin.setForeground(new Color(222, 222, 222));
@@ -379,6 +379,43 @@ public class ViewCustomersDialog extends JDialog {
 	    makeAdmin.setBackground(new Color(145, 74, 23));
 	    makeAdmin.setBounds(15, 266, 140, 47);
 	    getContentPane().add(makeAdmin);
+	    
+	    JButton viewOrdersBtn = new JButton("View Orders");
+	    viewOrdersBtn.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+				if(table.getSelectedRow() == -1) {
+					DialogsHandler.invalidRow(null);
+					return;
+				}
+				
+				String emailUsr = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+				
+				int userId = database.Database.getUserID(emailUsr);
+				if(userId == -1) {
+					DialogsHandler.SQLErr(null, "The application failed to remove the user");
+					return;
+				}
+				
+				ViewOrdersDialog.startWindow(null, userId);
+	    	}
+	    	@Override
+	    	public void mouseEntered(MouseEvent e) {
+	    		viewOrdersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 5));
+	    	}
+	    	@Override
+	    	public void mouseExited(MouseEvent e) {
+	    		viewOrdersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+	    	}
+	    });
+	    viewOrdersBtn.setForeground(new Color(222, 222, 222));
+	    viewOrdersBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+	    viewOrdersBtn.setFocusPainted(false);
+	    viewOrdersBtn.setContentAreaFilled(false);
+	    viewOrdersBtn.setBorder(new LineBorder(new Color(64, 38, 11), 4));
+	    viewOrdersBtn.setBackground(new Color(145, 74, 23));
+	    viewOrdersBtn.setBounds(15, 324, 140, 47);
+	    getContentPane().add(viewOrdersBtn);
 	    
 	    if(!fetchUsers(table)) {
 	    	DialogsHandler.SQLErr(null, "The application failed to read the customers.");

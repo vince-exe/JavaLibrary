@@ -37,14 +37,14 @@ import java.awt.event.MouseEvent;
 public class ViewOrdersDialog extends JDialog {
 	private JTable table;
 	private String columnsName[] = {"Id", "Title", "Quantity", "Price", "ISBN"	};
-	private static User currentUser;
+	private static int userId;
 	
 	private TableColumnModel columnModel;
 	/**
 	 * Launch the application.
 	 */
-	public static void startWindow(String[] args, User user) {
-		currentUser = user;
+	public static void startWindow(String[] args, int id) {
+		userId = id;
 		try {
 			ViewOrdersDialog dialog = new ViewOrdersDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -175,7 +175,7 @@ public class ViewOrdersDialog extends JDialog {
 				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 				tableModel.setRowCount(0);
 				
-				if(!fetchOrders(table, currentUser.getIdUser())) {
+				if(!fetchOrders(table, userId)) {
 			    	DialogsHandler.SQLErr(null, "The application failed to read the books.");
 			    	dispose();
 			    	return;
@@ -213,7 +213,7 @@ public class ViewOrdersDialog extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewOrdersDialog.class.getResource("/ui/resources/icon.png")));
 		setBounds(100, 100, 697, 388);
 		
-		if(!fetchOrders(table, currentUser.getIdUser())) {
+		if(!fetchOrders(table, userId)) {
 	    	DialogsHandler.SQLErr(null, "The application failed to read the books.");
 	    	dispose();
 	    	return;
